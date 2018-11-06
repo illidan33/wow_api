@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<title>WOW API</title>
+	<link rel="stylesheet" href="../css/bootstrap.min.css">
+	<link rel="stylesheet" href="../css/common.css">
+	<script src="../js/jquery.min.js"></script>
+	<script>
+		let api = "wowWidget";
+	</script>
+</head>
+<body>
+{{template "header"}}
+<div class="container">
+	<div class="row" id="content">
+		<div id="title-header" class="col-md-3">
+		{{template "title"}}
+		</div>
+		<div class="col-md-9">
+			<div class="panel-heading h2">小部件API</div>
+			<div class="panel-body">
+				<p>
+					这是通过扫描游戏内环境找到的所有Widget API函数的列表。您可能还对各种Widget处理程序感兴趣。
+				</p>
+			</div>
+
+			<!-- Table -->
+			{{template "table"}}
+		</div>
+	</div>
+</div>
+</body>
+</html>

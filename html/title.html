@@ -1,0 +1,45 @@
+{{define "title"}}
+<div id="title-ul" class="list-group">
+</div>
+<a id="to-content" href="#content-header" class="hidden"></a>
+<script>
+	$(function() {
+		$.getJSON("./" + api, {pid: 0}, function(data) {
+			let text = "";
+			if (data) {
+				$.each(data.list, function(k, v) {
+					if (k === 0) {
+						$("#api-select").text(v.name);
+					}
+					if (text) {
+						text += '<a flag="' + v.id + '" class="list-group-item">' + v.name + '</a>';
+					} else {
+						text += '<a flag="' + v.id + '" class="list-group-item active">' + v.name + '</a>';
+					}
+				});
+				$("#title-ul").html(text);
+				$("#title-ul .list-group-item").click(function() {
+					$("#title-ul .active").removeClass("active");
+					$(this).addClass("active");
+					$("#api-select").text($(this).text() + "：");
+					$("#api-list").html("");
+
+					let id = $(this).attr("flag")
+					$.getJSON("./" + api, {pid: id}, function(data) {
+						if (data) {
+							let text = '';
+							$.each(data.list, function(k, v) {
+								text += '<tr> <td>' + v.name + '</td> <td>' + v.desc + '</td></tr>';
+							})
+							$("#api-list").html(text);
+						}
+					});
+
+					// $("html,body").animate({scrollTop: 0}, 500);
+					$("#to-content").click();
+				});
+			}
+		})
+	})
+</script>
+{{end}}

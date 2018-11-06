@@ -1,0 +1,40 @@
+body {
+	background-image: url('../img/bg.jpg');
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-attachment: fixed;
+	background-size: cover;
+	background-color: #000000;
+	color: #CCCCCC;
+	margin-top: 70px;
+}
+
+#content {
+	background-color: #000000;
+	background-color: rgba(0, 0, 0, 0.7);
+}
+
+#title-ul li {
+	cursor: pointer;
+}
+
+.list-group-item {
+	background-color: #000000;
+	background-color: rgba(0, 0, 0, 0.4);
+	border: 0px solid #CCCCCC;
+}
+
+a.list-group-item, button.list-group-item {
+	color: #CCCCCC;
+}
+
+#title-header {
+	/*height: 700px;*/
+	/*overflow-y: auto;*/
+	/*overflow-x: hidden;*/
+}
+
+.home-active {
+	color: #fff;
+	background-color: #080808;
+}

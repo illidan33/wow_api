@@ -1,0 +1,41 @@
+{{define "header"}}
+<nav class="navbar navbar-inverse navbar-fixed-top">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-8" aria-expanded="false">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a id="home" class="navbar-brand" href="./">Home</a>
+		</div>
+
+		<!-- Collect the nav links, forms, and other content for toggling -->
+		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-8">
+			<ul class="nav navbar-nav">
+				<li id="title-wow-api"><a href="./api">魔兽世界 API</a></li>
+				<li id="title-wow-macro"><a href="./macro">宏命令 API</a></li>
+				<li id="title-wow-widget"><a href="./widget">UI部件 API</a></li>
+				<li id="title-wow-event"><a href="./event">事件 API</a></li>
+			</ul>
+		</div><!-- /.navbar-collapse -->
+	</div>
+</nav>
+<script>
+	if (api === "wowApi") {
+		$("#title-wow-api").addClass("active");
+	} else if (api === "wowMacro") {
+		$("#title-wow-macro").addClass("active");
+	} else if (api === "wowWidget") {
+		$("#title-wow-widget").addClass("active");
+	} else if (api === "wowEvent") {
+		$("#title-wow-event").addClass("active");
+	}else{
+		$("#home").addClass("home-active");
+	}
+	$(".collapsed").click(function() {
+		$(".collapse").toggle();
+	});
+</script>
+{{end}}

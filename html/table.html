@@ -1,0 +1,28 @@
+{{define "table"}}
+<div>
+	<span id="api-select" class="h3"></span>
+</div>
+<table class="table">
+	<thead>
+	<tr>
+		<th>API 名称</th>
+		<th>描述</th>
+	</tr>
+	</thead>
+	<tbody id="api-list">
+	</tbody>
+</table>
+<script>
+	$(function() {
+		$.getJSON("./" + api, {pid: 1}, function(data) {
+			if (data) {
+				let text = '';
+				$.each(data.list, function(k, v) {
+					text += '<tr flag="' + v.id + '"> <td>' + v.name + '</td> <td>' + v.desc + '</td></tr>';
+				})
+				$("#api-list").html(text);
+			}
+		});
+	})
+</script>
+{{end}}
