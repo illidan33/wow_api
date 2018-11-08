@@ -1,10 +1,9 @@
 {{define "title"}}
 <div id="title-ul" class="list-group">
 </div>
-<a id="to-content" href="#content-header" class="hidden"></a>
 <script>
 	$(function() {
-		$.getJSON("./" + api, {pid: 0}, function(data) {
+		$.post("./wow", {pid: 0, type: api}, function(data) {
 			let text = "";
 			if (data) {
 				$.each(data.list, function(k, v) {
@@ -25,7 +24,7 @@
 					$("#api-list").html("");
 
 					let id = $(this).attr("flag")
-					$.getJSON("./" + api, {pid: id}, function(data) {
+					$.post("./wow", {pid: id, type: api}, function(data) {
 						if (data) {
 							let text = '';
 							$.each(data.list, function(k, v) {
@@ -33,13 +32,12 @@
 							})
 							$("#api-list").html(text);
 						}
-					});
+					}, "json");
 
-					// $("html,body").animate({scrollTop: 0}, 500);
-					$("#to-content").click();
+					$("html,body").animate({scrollTop: 0}, 500);
 				});
 			}
-		})
+		}, "json")
 	})
 </script>
 {{end}}

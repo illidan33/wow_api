@@ -14,7 +14,11 @@
 </table>
 <script>
 	$(function() {
-		$.getJSON("./" + api, {pid: 1}, function(data) {
+		let pid = 1;
+		if (api === "Event") {
+			pid = 0;
+		}
+		$.post("./wow", {pid: pid, type: api}, function(data) {
 			if (data) {
 				let text = '';
 				$.each(data.list, function(k, v) {

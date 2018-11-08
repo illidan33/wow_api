@@ -14,19 +14,21 @@ var (
 )
 
 func main() {
+	rootPath := "/data/golang/go/src/gotest/wow_api_list/"
+
 	flag.IntVar(&port, "port", 8000, "listen port")
 	flag.Parse()
 
 	//gin.SetMode(gin.ReleaseMode)
 	router := gin.New()
-	router.LoadHTMLGlob("html/*")
+	router.LoadHTMLGlob(rootPath + "html/*")
 
 	// 设置静态资源
-	router.Static("/js", "js")
-	router.Static("/css", "css")
+	router.Static("/js", rootPath+"js")
+	router.Static("/css", rootPath+"css")
 	//router.Static("/html", "html")
-	router.Static("/img", "img")
-	router.StaticFile("/favicon.ico", "./favicon.ico")
+	router.Static("/img", rootPath+"img")
+	router.StaticFile("/favicon.ico", rootPath+"favicon.ico")
 	router.NoRoute(func(c *gin.Context) {
 		c.JSON(http.StatusNotFound, gin.H{
 			"status": 404,
@@ -34,18 +36,16 @@ func main() {
 		})
 	})
 
-	router.POST("/log/:method", CreateLoginLog)
+	//router.POST("/log/:method", CreateLoginLog)
 
 	router.GET("/", Index)
-	router.GET("/api", ApiIndex)
-	router.GET("/event", EventIndex)
-	router.GET("/macro", MacroIndex)
-	router.GET("/widget", WidgetIndex)
+	router.GET("/Api", ApiIndex)
+	router.GET("/Event", EventIndex)
+	router.GET("/Macro", MacroIndex)
+	router.GET("/Widget", WidgetIndex)
+	router.GET("/WidgetHandler", WidgetHandlerIndex)
 
-	router.GET("/wowApi", GetWowApi)
-	router.GET("/wowEvent", GetWowEvent)
-	router.GET("/wowMacro", GetWowMacro)
-	router.GET("/wowWidget", GetWowWidget)
+	router.POST("/wow", GetApi)
 
 	router.Run(fmt.Sprintf(":%d", port))
 }
@@ -74,50 +74,44 @@ func MacroIndex(c *gin.Context) {
 func WidgetIndex(c *gin.Context) {
 	c.HTML(http.StatusOK, "wow_widget.html", gin.H{})
 }
+func WidgetHandlerIndex(c *gin.Context) {
+	c.HTML(http.StatusOK, "wow_widget_handler.html", gin.H{})
+}
 
-func GetWowApi(c *gin.Context) {
+func GetApi(c *gin.Context) {
+	c.Request.ParseForm()
+
 	// 记录日志
 	ip := c.ClientIP()
 	go modules.CreateLog(ip, "wow_api")
 
-	pid, _ := strconv.Atoi(c.Query("pid"))
-	wowApis := modules.GetWowApiByParentID(pid)
-	c.JSON(http.StatusOK, gin.H{
-		"list": wowApis,
-	})
-}
+	pid, _ := c.GetPostForm("pid")
+	pidd, _ := strconv.Atoi(pid)
+	tableType, _ := c.GetPostForm("type")
+	//modules.Debug(pid + "-" + tableType)
 
-func GetWowEvent(c *gin.Context) {
-	// 记录日志
-	ip := c.ClientIP()
-	go modules.CreateLog(ip, "wow_event")
-
-	//pid, _ := strconv.Atoi(c.Query("pid"))
-	wowApis := modules.GetWowEventByParentID(0)
-	c.JSON(http.StatusOK, gin.H{
-		"list": wowApis,
-	})
-}
-
-func GetWowMacro(c *gin.Context) {
-	// 记录日志
-	ip := c.ClientIP()
-	go modules.CreateLog(ip, "wow_macro")
-
-	pid, _ := strconv.Atoi(c.Query("pid"))
-	wowApis := modules.GetWowMacroByParentID(pid)
-	c.JSON(http.StatusOK, gin.H{
-		"list": wowApis,
-	})
-}
-
-func GetWowWidget(c *gin.Context) {
-	// 记录日志
-	ip := c.ClientIP()
-	go modules.CreateLog(ip, "wow_widget")
-
-	pid, _ := strconv.Atoi(c.Query("pid"))
-	wowApis := modules.GetWowWidgetByParentID(pid)
+	var table string
+	switch tableType {
+	case "Api":
+		table = "api_wow"
+		break
+	case "Macro":
+		table = "api_macro"
+		break
+	case "Event":
+		table = "api_event"
+		break
+	case "Widget":
+		table = "api_widget"
+		break
+	case "WidgetHandler":
+		table = "api_widget_handler"
+		break
+	default:
+		table = "api_wow"
+		break
+	}
+	wowApis := modules.GetApiByParentID(table, pidd)
 	c.JSON(http.StatusOK, gin.H{
 		"list": wowApis,
 	})

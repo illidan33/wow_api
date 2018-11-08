@@ -7,6 +7,25 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
+type ApiForGet struct {
+	ID       int    `json:"id" db:"id"`
+	//ParentID int    `json:"parentID" db:"parent_id"`
+	Name     string `json:"name" db:"name"`
+	NameCn   string `json:"nameCn" db:"name_cn"`
+	Desc     string `json:"desc" db:"desc"`
+}
+
+type Api struct {
+	ID         int    `json:"id" db:"id"`
+	ParentID   int    `json:"parentID" db:"parent_id"`
+	Name       string `json:"name" db:"name"`
+	NameCn     string `json:"nameCn" db:"name_cn"`
+	Desc       string `json:"desc" db:"desc"`
+	Enabled    int    `json:"enabled" db:"enabled"`
+	CreateTime string `json:"createTime" db:"create_time"`
+	UpdateTime string `json:"updateTime" db:"update_time"`
+}
+
 var DbConn *sqlx.DB
 
 func init() {
@@ -27,8 +46,8 @@ func DbConnetc() {
 	DbConn, err = sqlx.Open("mysql", "test:test@tcp(127.0.0.1:3306)/wow_hong?charset=utf8")
 	CheckErr("Connect Database", err)
 
-	DbConn.SetMaxOpenConns(1000)
-	DbConn.SetMaxIdleConns(2000)
+	DbConn.SetMaxOpenConns(200)
+	DbConn.SetMaxIdleConns(100)
 	err = DbConn.Ping()
 	CheckErr("Ping Database", err)
 }
