@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"./modules"
+	"github.com/illidan33/wow_api/modules"
 	"strconv"
 )
 
