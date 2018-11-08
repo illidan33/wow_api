@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"gotest/wow_api_list/modules"
+	"./modules"
 	"strconv"
 )
 
@@ -19,7 +19,7 @@ func main() {
 	flag.IntVar(&port, "port", 8000, "listen port")
 	flag.Parse()
 
-	//gin.SetMode(gin.ReleaseMode)
+	gin.SetMode(gin.ReleaseMode)
 	router := gin.New()
 	router.LoadHTMLGlob(rootPath + "html/*")
 
