@@ -7,6 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/illidan33/wow_api/modules"
 	"strconv"
+	"time"
 )
 
 var (
@@ -14,7 +15,7 @@ var (
 )
 
 func main() {
-	rootPath := "/data/golang/go/src/gotest/wow_api_list/"
+	rootPath := "/data/golang/go/src/github.com/illidan33/wow_api/"
 
 	flag.IntVar(&port, "port", 8000, "listen port")
 	flag.Parse()
@@ -26,7 +27,6 @@ func main() {
 	// 设置静态资源
 	router.Static("/js", rootPath+"js")
 	router.Static("/css", rootPath+"css")
-	//router.Static("/html", "html")
 	router.Static("/img", rootPath+"img")
 	router.StaticFile("/favicon.ico", rootPath+"favicon.ico")
 	router.NoRoute(func(c *gin.Context) {
@@ -36,8 +36,7 @@ func main() {
 		})
 	})
 
-	//router.POST("/log/:method", CreateLoginLog)
-
+	// 模块
 	router.GET("/", Index)
 	router.GET("/Api", ApiIndex)
 	router.GET("/Event", EventIndex)
@@ -45,18 +44,10 @@ func main() {
 	router.GET("/Widget", WidgetIndex)
 	router.GET("/WidgetHandler", WidgetHandlerIndex)
 
+	// data
 	router.POST("/wow", GetApi)
 
 	router.Run(fmt.Sprintf(":%d", port))
-}
-
-func CreateLoginLog(c *gin.Context) {
-	method := c.Param("method")
-	// 记录日志
-	ip := c.ClientIP()
-	go modules.CreateLog(ip, method)
-
-	c.JSON(http.StatusOK, gin.H{})
 }
 
 func Index(c *gin.Context) {
@@ -80,15 +71,15 @@ func WidgetHandlerIndex(c *gin.Context) {
 
 func GetApi(c *gin.Context) {
 	c.Request.ParseForm()
-
-	// 记录日志
-	ip := c.ClientIP()
-	go modules.CreateLog(ip, "wow_api")
-
 	pid, _ := c.GetPostForm("pid")
 	pidd, _ := strconv.Atoi(pid)
 	tableType, _ := c.GetPostForm("type")
-	//modules.Debug(pid + "-" + tableType)
+
+	// 记录日志
+	if pidd != 0 || tableType == "Event" {
+		ip := c.ClientIP()
+		go CheckLoginLog(ip, tableType)
+	}
 
 	var table string
 	switch tableType {
@@ -115,4 +106,21 @@ func GetApi(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"list": wowApis,
 	})
+}
+
+func CheckLoginLog(ip string, method string) {
+	date := time.Now().Format("2006-01-02")
+
+	log, err := modules.GetLog(ip, method, date)
+	if err != nil || log.ID == 0 {
+		err = modules.CreateLog(ip, method)
+		if err != nil {
+			modules.CheckErr("CreateLog", err)
+		}
+	} else {
+		err = modules.UpdateLog(log.ID, log.Count+1)
+		if err != nil {
+			modules.CheckErr("UpdateLog", err)
+		}
+	}
 }
