@@ -17,7 +17,7 @@ var (
 func main() {
 	rootPath := "/data/golang/go/src/github.com/illidan33/wow_api/"
 
-	flag.IntVar(&port, "port", 8000, "listen port")
+	flag.IntVar(&port, "port", 8001, "listen port")
 	flag.Parse()
 
 	gin.SetMode(gin.ReleaseMode)
