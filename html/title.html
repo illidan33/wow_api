@@ -8,19 +8,27 @@
 			if (data) {
 				$.each(data.list, function(k, v) {
 					if (k === 0) {
-						$("#api-select").text(v.name);
+						$("#api-select").text(v.name + "(" + v.nameCn + ")");
 					}
-					if (text) {
-						text += '<a flag="' + v.id + '" class="list-group-item">' + v.name + '</a>';
+					if (v.name === v.nameCn) {
+						if (text) {
+							text += '<a flag="' + v.id + '" class="list-group-item">' + v.name + '</a>';
+						} else {
+							text += '<a flag="' + v.id + '" class="list-group-item active">' + v.name + '</a>';
+						}
 					} else {
-						text += '<a flag="' + v.id + '" class="list-group-item active">' + v.name + '</a>';
+						if (text) {
+							text += '<a flag="' + v.id + '" class="list-group-item">' + v.name + '(' + v.nameCn + ')' + '</a>';
+						} else {
+							text += '<a flag="' + v.id + '" class="list-group-item active">' + v.name + '(' + v.nameCn + ')' + '</a>';
+						}
 					}
 				});
 				$("#title-ul").html(text);
 				$("#title-ul .list-group-item").click(function() {
 					$("#title-ul .active").removeClass("active");
 					$(this).addClass("active");
-					$("#api-select").text($(this).text() + "：");
+					$("#api-select").text($(this).text());
 					$("#api-list").html("");
 
 					let id = $(this).attr("flag")
