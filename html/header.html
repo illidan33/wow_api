@@ -24,18 +24,10 @@
 	</div>
 </nav>
 <script>
-	if (api === "Api") {
-		$("#title-wow-api").addClass("active");
-	} else if (api === "Macro") {
-		$("#title-wow-macro").addClass("active");
-	} else if (api === "Widget") {
-		$("#title-wow-widget").addClass("active");
-	} else if (api === "Event") {
-		$("#title-wow-event").addClass("active");
-	} else if (api === "WidgetHandler") {
-		$("#title-wow-widget-handler").addClass("active");
+	if (api !== "home") {
+		$("#" + api).addClass("active");
 	} else {
-		$("#home").addClass("home-active");
+		$("#" + api).addClass("home-active");
 	}
 	$(".collapsed").click(function() {
 		let tag = $(this).attr("data-target");

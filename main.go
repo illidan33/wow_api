@@ -8,6 +8,7 @@ import (
 	"github.com/illidan33/wow_api/modules"
 	"strconv"
 	"time"
+	"os"
 )
 
 var (
@@ -15,7 +16,7 @@ var (
 )
 
 func main() {
-	rootPath := "/data/golang/go/src/github.com/illidan33/wow_api/"
+	rootPath := fmt.Sprintf("%s/src/github.com/illidan33/wow_api/", os.Getenv("GOPATH"));
 
 	flag.IntVar(&port, "port", 8001, "listen port")
 	flag.Parse()
@@ -51,22 +52,34 @@ func main() {
 }
 
 func Index(c *gin.Context) {
-	c.HTML(http.StatusOK, "index.html", gin.H{})
+	c.HTML(http.StatusOK, "index.html", gin.H{
+		"apiPage": "home",
+	})
 }
 func ApiIndex(c *gin.Context) {
-	c.HTML(http.StatusOK, "wow_api.html", gin.H{})
+	c.HTML(http.StatusOK, "wow_api.html", gin.H{
+		"apiPage": "title-wow-api",
+	})
 }
 func EventIndex(c *gin.Context) {
-	c.HTML(http.StatusOK, "wow_event.html", gin.H{})
+	c.HTML(http.StatusOK, "wow_event.html", gin.H{
+		"apiPage": "title-wow-event",
+	})
 }
 func MacroIndex(c *gin.Context) {
-	c.HTML(http.StatusOK, "wow_macro.html", gin.H{})
+	c.HTML(http.StatusOK, "wow_macro.html", gin.H{
+		"apiPage": "title-wow-macro",
+	})
 }
 func WidgetIndex(c *gin.Context) {
-	c.HTML(http.StatusOK, "wow_widget.html", gin.H{})
+	c.HTML(http.StatusOK, "wow_widget.html", gin.H{
+		"apiPage": "title-wow-widget",
+	})
 }
 func WidgetHandlerIndex(c *gin.Context) {
-	c.HTML(http.StatusOK, "wow_widget_handler.html", gin.H{})
+	c.HTML(http.StatusOK, "wow_widget_handler.html", gin.H{
+		"apiPage": "title-wow-widget-handler",
+	})
 }
 
 func GetApi(c *gin.Context) {
