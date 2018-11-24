@@ -18,3 +18,29 @@ func GetApiByParentID(table string, parentID int) []ApiForGet {
 
 	return wowApis
 }
+
+func GetApiByID(table string, ID int) Api {
+	conn := GetDbConn()
+
+	builder := sql_builder.Select(table)
+	builder.WhereEq("id", ID)
+
+	wowApi := Api{}
+	sqlx.Get(conn, &wowApi, builder.String(), builder.Args()...)
+
+	return wowApi
+}
+
+func SaveApiUnverify(api UnVerifyApi) error {
+	conn := GetDbConn()
+
+	builder := sql_builder.Insert("api_unverify")
+	builder.InsertByStruct(api)
+
+	_, err := conn.Exec(builder.String(), builder.Args()...)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

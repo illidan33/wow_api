@@ -17,7 +17,6 @@ var (
 
 func main() {
 	rootPath := fmt.Sprintf("%s/src/github.com/illidan33/wow_api/", os.Getenv("GOPATH"));
-
 	flag.IntVar(&port, "port", 8001, "listen port")
 	flag.Parse()
 
@@ -44,9 +43,11 @@ func main() {
 	router.GET("/Macro", MacroIndex)
 	router.GET("/Widget", WidgetIndex)
 	router.GET("/WidgetHandler", WidgetHandlerIndex)
+	router.GET("/ApiDetail/:type/:id", ApiDetailHandle)
 
 	// data
 	router.POST("/wow", GetApi)
+	router.POST("/saveApi", SaveUnverifyApi)
 
 	router.Run(fmt.Sprintf(":%d", port))
 }
@@ -82,6 +83,38 @@ func WidgetHandlerIndex(c *gin.Context) {
 	})
 }
 
+func ApiDetailHandle(c *gin.Context) {
+	tableType := c.Param("type")
+	id, _ := strconv.Atoi(c.Param("id"))
+
+	var table string
+	switch tableType {
+	case "title-wow-api":
+		table = "api_wow"
+		break
+	case "title-wow-macro":
+		table = "api_macro"
+		break
+	case "title-wow-event":
+		table = "api_event"
+		break
+	case "title-wow-widget":
+		table = "api_widget"
+		break
+	case "title-wow-widget-handler":
+		table = "api_widget_handler"
+		break
+	default:
+		table = "api_wow"
+		break
+	}
+	wowApi := modules.GetApiByID(table, id)
+	c.HTML(http.StatusOK, "edit_box.html", gin.H{
+		"api":  wowApi,
+		"type": tableType,
+	})
+}
+
 func GetApi(c *gin.Context) {
 	c.Request.ParseForm()
 	pid, _ := c.GetPostForm("pid")
@@ -96,19 +129,19 @@ func GetApi(c *gin.Context) {
 
 	var table string
 	switch tableType {
-	case "Api":
+	case "title-wow-api":
 		table = "api_wow"
 		break
-	case "Macro":
+	case "title-wow-macro":
 		table = "api_macro"
 		break
-	case "Event":
+	case "title-wow-event":
 		table = "api_event"
 		break
-	case "Widget":
+	case "title-wow-widget":
 		table = "api_widget"
 		break
-	case "WidgetHandler":
+	case "title-wow-widget-handler":
 		table = "api_widget_handler"
 		break
 	default:
@@ -119,6 +152,29 @@ func GetApi(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"list": wowApis,
 	})
+}
+
+func SaveUnverifyApi(c *gin.Context) {
+	c.Request.ParseForm()
+
+	id, _ := strconv.Atoi(c.PostForm("id"))
+	api := modules.UnVerifyApi{
+		ApiID:      id,
+		Type:       c.PostForm("type"),
+		Name:       c.PostForm("name"),
+		NameCn:     c.PostForm("nameCn"),
+		Desc:       c.PostForm("desc"),
+		InfoDesc:   c.PostForm("infoDesc"),
+		CreateTime: time.Now().Format("2006-01-02 15:04:05"),
+	}
+
+	err := modules.SaveApiUnverify(api)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+		})
+	} else {
+		c.JSON(http.StatusOK, gin.H{})
+	}
 }
 
 func CheckLoginLog(ip string, method string) {

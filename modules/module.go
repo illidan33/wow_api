@@ -35,3 +35,13 @@ type LoginLog struct {
 	CreateTime string `json:"createTime" db:"create_time"`
 	UpdateTime string `json:"updateTime" db:"update_time"`
 }
+
+type UnVerifyApi struct {
+	ApiID      int    `json:"apiID" db:"api_id"`
+	Type       string `json:"type" db:"type"`
+	Name       string `json:"name" db:"name"`
+	NameCn     string `json:"nameCn" db:"name_cn"`
+	Desc       string `json:"desc" db:"desc"`
+	InfoDesc   string `json:"infoDesc" db:"info_desc"`
+	CreateTime string `json:"createTime" db:"create_time"`
+}
