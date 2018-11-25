@@ -16,7 +16,11 @@ var (
 )
 
 func main() {
-	rootPath := fmt.Sprintf("%s/src/github.com/illidan33/wow_api/", os.Getenv("GOPATH"));
+	gopath := os.Getenv("GOPATH")
+	if gopath == "" {
+		gopath = "/test"
+	}
+	rootPath := fmt.Sprintf("%s/src/github.com/illidan33/wow_api/", gopath);
 	flag.IntVar(&port, "port", 8001, "listen port")
 	flag.Parse()
 
