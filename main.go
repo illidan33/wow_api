@@ -121,12 +121,6 @@ func GetApi(c *gin.Context) {
 	pidd, _ := strconv.Atoi(pid)
 	tableType, _ := c.GetPostForm("type")
 
-	// 记录日志
-	if pidd != 0 || tableType == "Event" {
-		ip := c.ClientIP()
-		go CheckLoginLog(ip, tableType)
-	}
-
 	var table string
 	switch tableType {
 	case "title-wow-api":
@@ -148,6 +142,13 @@ func GetApi(c *gin.Context) {
 		table = "api_wow"
 		break
 	}
+
+	// 记录日志
+	if pidd != 0 || table == "api_event" {
+		ip := c.ClientIP()
+		go CheckLoginLog(ip, table)
+	}
+
 	wowApis := modules.GetApiByParentID(table, pidd)
 	c.JSON(http.StatusOK, gin.H{
 		"list": wowApis,
