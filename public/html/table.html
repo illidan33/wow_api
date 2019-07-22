@@ -18,12 +18,12 @@
 		if (api === "title-wow-event") {
 			pid = 0;
 		}
-		$.post("./wow", {pid: pid, type: api}, function(data) {
+		$.get("/api/list", {pid: pid, type: api}, function(data) {
 			if (data) {
 				let text = '';
 				$.each(data.list, function(k, v) {
-					text += '<tr flag="' + v.id + '"> <td><a href="/ApiDetail/' + api + '/' + v.id + '">' + v.name + '</a></td> <td>' + v.desc + '</td></tr>';
-				})
+					text += '<tr flag="' + v.id + '"> <td><a href="/api/detail/' + api + '/' + v.id + '">' + v.name + '</a></td> <td>' + v.desc + '</td></tr>';
+				});
 				$("#api-list").html(text);
 			}
 		});

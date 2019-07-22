@@ -1,7 +1,8 @@
 package modules
 
 import (
-	"github.com/illidan33/sql-builder"
+	"github.com/illidan33/wow_api/database"
+	"github.com/illidan33/wow_api/global"
 	"time"
 )
 
@@ -10,7 +11,7 @@ func CreateLog(ip string, method string) error {
 	now := time.Now()
 	t := now.Format("2006-01-02 15:04:05")
 
-	log := LoginLog{
+	log := database.LoginLog{
 		ID:         0,
 		IP:         ip,
 		Method:     method,
@@ -19,44 +20,36 @@ func CreateLog(ip string, method string) error {
 		CreateTime: t,
 		UpdateTime: t,
 	}
-	builder := sql_builder.Insert("api_login_log")
-	builder.InsertByStruct(log)
 
-	conn := GetDbConn()
-	_, err := conn.Exec(builder.String(), builder.Args()...)
+	err := DbConn.Create(&log).Error
 	if err != nil {
-		return err
+		global.Config.Log.Error(err)
 	}
 
 	return nil
 }
 
-func UpdateLog(id int, count int) error {
-	builder := sql_builder.Update("api_login_log")
-	builder.WhereEq("id", id)
-	builder.UpdateSet("count", count)
+func UpdateOrCreateLog(ip string, method string) error {
+	date := time.Now().Format("2006-01-02")
 
-	conn := GetDbConn()
-	_, err := conn.Exec(builder.String(), builder.Args()...)
+	log := database.LoginLog{}
+	err := DbConn.Where("ip = ? and method = ? and login_date = ?", ip, method, date).First(&log).Error
+	if err != nil {
+		if IsNotFound(err) {
+			err = CreateLog(ip, method)
+			if err != nil {
+				return err
+			}
+			return nil
+		}
+		return err
+	}
+	log.Count += 1
+
+	err = DbConn.Save(&log).Error
 	if err != nil {
 		return err
 	}
 
 	return nil
-}
-
-func GetLog(ip string, method string, date string) (LoginForGet, error) {
-	builder := sql_builder.Select("api_login_log")
-	builder.WhereEq("ip", ip)
-	builder.WhereEq("method", method)
-	builder.WhereEq("login_date", date)
-	builder.SetSearchFields([]string{"id", "ip", "method", "login_date", "count"})
-
-	log := LoginForGet{}
-	conn := GetDbConn()
-	err := conn.Get(&log, builder.String(), builder.Args()...)
-	if err != nil {
-		return LoginForGet{}, err
-	}
-	return log, nil
 }

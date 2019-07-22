@@ -26,15 +26,7 @@ type LoginForGet struct {
 	Count     int    `json:"count" db:"count"`
 }
 
-type LoginLog struct {
-	ID         int    `json:"id" db:"id"`
-	IP         string `json:"ip" db:"ip"`
-	Method     string `json:"method" db:"method"`
-	LoginDate  string `json:"loginDate" db:"login_date"`
-	Count      int    `json:"count" db:"count"`
-	CreateTime string `json:"createTime" db:"create_time"`
-	UpdateTime string `json:"updateTime" db:"update_time"`
-}
+
 
 type UnVerifyApi struct {
 	ApiID      int    `json:"apiID" db:"api_id"`

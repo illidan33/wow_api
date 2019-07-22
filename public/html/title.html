@@ -3,7 +3,7 @@
 </div>
 <script>
 	$(function() {
-		$.post("./wow", {pid: 0, type: api}, function(data) {
+		$.get("/api/list", {pid: 0, type: api}, function(data) {
 			let text = "";
 			if (data) {
 				$.each(data.list, function(k, v) {

@@ -2,11 +2,12 @@ package modules
 
 import (
 	"github.com/illidan33/sql-builder"
+	"github.com/illidan33/wow_hong_golang/modules"
 	"github.com/jmoiron/sqlx"
 )
 
 func GetApiByParentID(table string, parentID int) []ApiForGet {
-	conn := GetDbConn()
+	conn := modules.DbConn
 
 	builder := sql_builder.Select(table)
 	builder.WhereEq("parent_id", parentID)
@@ -20,7 +21,7 @@ func GetApiByParentID(table string, parentID int) []ApiForGet {
 }
 
 func GetApiByID(table string, ID int) Api {
-	conn := GetDbConn()
+	conn := modules.DbConn
 
 	builder := sql_builder.Select(table)
 	builder.WhereEq("id", ID)
@@ -32,7 +33,7 @@ func GetApiByID(table string, ID int) Api {
 }
 
 func SaveApiUnverify(api UnVerifyApi) error {
-	conn := GetDbConn()
+	conn := modules.DbConn
 
 	builder := sql_builder.Insert("api_unverify")
 	builder.InsertByStruct(api)
