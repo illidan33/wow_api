@@ -1,6 +1,6 @@
 package database
 
-type LoginLog struct {
+type ApiLoginLog struct {
 	ID         int    `json:"id" gorm:"column:id"`
 	IP         string `json:"ip" gorm:"column:ip"`
 	Method     string `json:"method" gorm:"column:method"`

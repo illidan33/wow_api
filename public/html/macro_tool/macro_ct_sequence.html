@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>宏工具-技能循环</title>
+    {{template "macro_head_script" .}}
+</head>
+<body>
+<script src="../js/vue.min.js" ></script>
+<script src="../js/axios.min.js" ></script>
+{{template "macro_header"}}
+
+<div class="container" id="container" >
+    <div class="row" id="content">
+        <div class="col-md-12">
+            <label class="text-danger">Warning：勿加入冷却时间超过45秒的技能，另外，需要注意的是此处的循环只是冷却时间的循环，没有考虑能量值的变化，故生成技能循环之后，可以根据具体的使用情况，增删掉其中的技能！</label>
+        </div>
+        <div class="col-md-12" id="btn_div" style="margin-top: 20px;">
+            <button class="btn btn-info" v-on:click="addTemp">增加一个技能框</button>
+            <button class="btn btn-info" v-on:click="create">创建技能循环</button>
+        </div>
+        <div class="col-md-12">
+            <table class="table table-condensed" style="word-break:break-all; word-wrap:break-word;color: #eee;">
+                <thead>
+                <tr>
+                    <th class="col-md-1">#</th>
+                    <th class="col-md-6">宏文本</th>
+                    <th>描述信息</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-for="item1 in macros">
+                    <th scope="row">${item1.id}$</th>
+                    <td v-html="item1.text"></td>
+                    <td v-html="item1.desc"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script src="/js/macroCtSequence.js"></script>
+</body>
+</html>

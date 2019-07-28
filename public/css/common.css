@@ -1,17 +1,26 @@
 body {
-	background-image: url('../img/bg.jpg');
+	/*background-image: url('../img/bg.jpg');
 	background-repeat: no-repeat;
 	background-position: center center;
 	background-attachment: fixed;
-	background-size: cover;
-	background-color: #000000;
-	color: #CCCCCC;
-	margin-top: 70px;
+	background-size: cover;*/
+	background-color: #080808;
+	color: white;
+	/*margin-top: 70px;*/
 }
 
-#content {
-	background-color: #000000;
+.navbar-inverse .navbar-nav > .active > a {
+	/*background-color: #337ab7;
+	border-radius: 10px;*/
+}
+
+#content, #container, .container {
+	/*background-color: #080808;*/
 	background-color: rgba(0, 0, 0, 0.7);
+}
+
+.well {
+	background-color: #080808;
 }
 
 #title-ul li {
@@ -19,13 +28,13 @@ body {
 }
 
 .list-group-item {
-	background-color: #000000;
+	background-color: #080808;
 	background-color: rgba(0, 0, 0, 0.4);
-	border: 0px solid #CCCCCC;
+	border-color: #337ab7;
 }
 
 a.list-group-item, button.list-group-item {
-	color: #CCCCCC;
+	color: white;
 }
 
 #title-header {
@@ -34,7 +43,20 @@ a.list-group-item, button.list-group-item {
 	/*overflow-x: hidden;*/
 }
 
-.home-active {
-	color: #fff;
+.home-active, .active {
+	color: white;
 	background-color: #080808;
+}
+
+table, table tr, table tr td {
+	color: white;
+	background-color: #080808;
+}
+
+table .form-control {
+	color: white;
+	padding: 10px;
+	border: 0px;
+	background-color: #080808;
+	border-radius: 5px;
 }

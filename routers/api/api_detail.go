@@ -14,7 +14,7 @@ func ApiDetail(c *gin.Context) {
 		modules.Return(c, 500, errors.New("id is empty"))
 		return
 	}
-	global.Config.Log.Infof("ApiDetailHandle id: %s", id)
+	global.Config.Log.Debugf("ApiDetailHandle id: %s", id)
 
 	event := database.ApiEvent{}
 	err := modules.DbConn.Where("id = ?", id).First(&event).Error
@@ -23,6 +23,6 @@ func ApiDetail(c *gin.Context) {
 		return
 	}
 
-	global.Config.Log.Infof("ApiDetailHandle resp: %+v", event)
+	global.Config.Log.Debugf("ApiDetailHandle resp: %+v", event)
 	modules.Return(c, 0, event)
 }

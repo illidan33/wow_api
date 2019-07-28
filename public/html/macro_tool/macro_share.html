@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>宏工具-分享</title>
+    {{template "macro_head_script" .}}
+</head>
+<body>
+<script src="../js/vue.min.js" ></script>
+<script src="../js/axios.min.js" ></script>
+{{template "macro_header"}}
+
+<div class="container" id="container" >
+    <div class="row" id="content">
+        <div class="col-sm-12" id="edit_macro">
+            <form action="" method="post" class="col-sm-10" id="addMacroForm">
+                <style>
+                    .margin_bottom {
+                        margin-bottom: 10px;
+                    }
+                </style>
+                <div class="form-group">
+                    <label for="profession">选择宏所属职业：</label>
+                    <select class="form-control col-xs-12 col-sm-12 col-md-2 margin_bottom" id="profession" name="profession_id" v-model="select_proid" v-on:change="changeProfession">
+                        <option value="">
+                            请选择
+                        </option>
+                        <option v-for="item in professions" v-bind:value="item.id">
+                        ${item.name}$
+                        </option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="title">标题：</label>
+                    <input name="title" type="text" class="form-control" id="title" placeholder="请输入宏模板的一小段使用介绍">
+                </div>
+                <div class="form-group">
+                    <label for="macro">宏模板：</label>
+                    <textarea name="macro" class="form-control" id="macro" placeholder="请将要分享的宏模板粘贴在此处！
+比如：
+#showtooltip
+/cast [nostance:1,nostance:3]激活
+/cast [stance:1]野性冲锋(熊形态)
+/castsequence [stance:3] reset=10 野性冲锋(猎豹形态),毁灭
+/script UIErrorsFrame:Clear()" style="min-height: 300px;"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="title">服务器-角色名称：</label>
+                    <input name="author" type="text" class="form-control" id="author" placeholder="请输入分享者信息！格式：服务器-角色名称">
+                </div>
+                <button type="button" class="btn btn-info col-sm-12" v-on:click="submitToService">分享一条宏</button>
+            </form>
+        </div>
+    </div>
+</div>
+<br><br>
+<script src="/js/macroShare.js"></script>
+</body>
+</html>

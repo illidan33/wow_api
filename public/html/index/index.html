@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>World of Warcraft Tools</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<link rel="stylesheet" href="/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/css/common.css">
+	<script src="/js/jquery.min.js"></script>
+	<script>
+        let api = {{.apiPage}};
+	</script>
+</head>
+<body>
+<nav class="navbar navbar-inverse">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+					data-target="#collapse-header" aria-expanded="true">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a id="home" class="navbar-brand" href="/">Home</a>
+		</div>
+
+		<!-- Collect the nav links, forms, and other content for toggling -->
+		<div class="collapse navbar-collapse" id="collapse-header">
+			<ul class="nav navbar-nav">
+				<li id="title-wow-index"><a href="/api/">魔兽世界插件开发 API</a></li>
+				<li id="title-macro-index"><a href="/macro/">宏命令工具集合</a></li>
+			</ul>
+		</div>
+	</div>
+</nav>
+<script>
+    if (api !== "home") {
+        $("#" + api).addClass("active");
+    } else {
+        $("#" + api).addClass("home-active");
+    }
+    $(".collapsed").click(function () {
+        let tag = $(this).attr("data-target");
+        $(tag).toggle();
+    });
+</script>
+<div class="container">
+	<div class="row" id="content">
+		<div class="col-md-12">
+			<div class="panel-heading h2">WOW API</div>
+			<div class="panel-body" id="content-header">
+				<p>
+					该API项目的重点是提供魔兽API相关的内容的介绍，包括API参考材料，以及指南和教程文章。由于其范围广泛，该项目旨在引出各个子主题的资料，为API相关讨论提供了一个共同的平台。
+					<br>本站发布的内容若侵犯到您的权益，请联系站长删除，我们将及时处理。
+				</p>
+			</div>
+
+		</div>
+	</div>
+</div>
+</body>
+</html>

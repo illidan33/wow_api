@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>宏工具-审核/编辑</title>
+    {{template "macro_head_script" .}}
+</head>
+<body>
+<script src="../js/vue.min.js" ></script>
+<script src="../js/axios.min.js" ></script>
+{{template "macro_header"}}
+
+<div class="container" id="container">
+	<div class="row" id="content">
+		<div class="form-group col-sm-12 clearfix">
+			<select class="form-control col-xs-12 col-sm-12 col-md-2 col-lg-2" id="profession" name="profession_id">
+				<option value="0">
+					全部
+				</option>
+				<option v-for="item in professions" v-bind:value="item.id">
+					${item.name}$
+				</option>
+			</select>
+			<select id="verify" name="verify" class="form-control col-xs-12 col-sm-12 col-md-2 col-lg-2" style="margin: 10px 0px;">
+				<option value="2" selected>未审核</option>
+			</select>
+			<button type="button" class="btn btn-success col-xs-12 col-sm-12 col-md-1" v-on:click="search">查询</button>
+		</div>
+		<div class="form-group col-sm-12">
+			<table class="table col-sm-12">
+				<thead>
+				<tr>
+					<th class="col-sm-1 col-md-1">状态</th>
+					<th class="col-sm-2 hidden-xs hidden-sm">作者</th>
+					<th class="col-sm-3 hidden-xs">标题</th>
+					<th class="col-sm-6">宏模板</th>
+					<th>操作</th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr v-for="(selectmacro, key) in macros" :id="'tr_macro_'+selectmacro.id">
+					<td class=""><input :id="'verify_'+selectmacro.id" type="text" v-bind:value="selectmacro.isVerify"/></td>
+					<td class="hidden-xs hidden-sm"><input :id="'author_'+selectmacro.id" type="text" v-bind:value="selectmacro.author"/></td>
+					<td class="hidden-xs"><textarea :id="'title_'+selectmacro.id" class="form-control" rows="4">${selectmacro.title}$</textarea></td>
+					<td>
+						<textarea :id="'macro_'+selectmacro.id" class="form-control" rows="7">${selectmacro.macro}$</textarea>
+					</td>
+					<td>
+						<button class="btn btn-default" v-on:click="update(selectmacro.id)" :flag="selectmacro.id">修改</button>
+					</td>
+				</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+<script src="/js/macroVerify.js"></script>
+</body>
+</html>

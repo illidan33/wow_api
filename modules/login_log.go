@@ -11,7 +11,7 @@ func CreateLog(ip string, method string) error {
 	now := time.Now()
 	t := now.Format("2006-01-02 15:04:05")
 
-	log := database.LoginLog{
+	log := database.ApiLoginLog{
 		ID:         0,
 		IP:         ip,
 		Method:     method,
@@ -32,7 +32,7 @@ func CreateLog(ip string, method string) error {
 func UpdateOrCreateLog(ip string, method string) error {
 	date := time.Now().Format("2006-01-02")
 
-	log := database.LoginLog{}
+	log := database.ApiLoginLog{}
 	err := DbConn.Where("ip = ? and method = ? and login_date = ?", ip, method, date).First(&log).Error
 	if err != nil {
 		if IsNotFound(err) {
@@ -46,7 +46,10 @@ func UpdateOrCreateLog(ip string, method string) error {
 	}
 	log.Count += 1
 
-	err = DbConn.Save(&log).Error
+	err = DbConn.Model(&log).Update(database.ApiLoginLog{
+		Count: log.Count,
+		UpdateTime: time.Now().Format("2006-01-02 15:04:05"),
+	}).Error
 	if err != nil {
 		return err
 	}

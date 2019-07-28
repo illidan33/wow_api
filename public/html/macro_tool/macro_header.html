@@ -1,0 +1,39 @@
+{{define "macro_header"}}
+	<nav class="navbar navbar-inverse">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+						data-target="#collapse-header" aria-expanded="true">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a id="home" class="navbar-brand" href="/macro">Home</a>
+			</div>
+
+			<div class="collapse navbar-collapse" id="collapse-header">
+				<ul class="nav navbar-nav">
+					<li id="title-macro-create"><a href="/macro/createIndex">快速创建</a></li>
+					<li id="title-macro-byhand"><a href="/macro/byHandIndex">手动创建</a></li>
+					<li id="title-macro-ctsequence"><a href="/macro/ctSequenceIndex">创建技能循环</a></li>
+					<li id="title-macro-list"><a href="/macro/listIndex">搜索所有宏</a></li>
+					<li id="title-macro-share"><a href="/macro/shareIndex">分享宏</a></li>
+					<li id="title-macro-info"><a href="/macro/infoIndex">宏命令资料</a></li>
+					<li id="title-macro-verify"><a href="/macro/verifyIndex">审核</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+	<script>
+        if (api !== "home") {
+            $("#" + api).addClass("active");
+        } else {
+            $("#" + api).addClass("home-active");
+        }
+        $(".collapsed").click(function () {
+            let tag = $(this).attr("data-target");
+            $(tag).toggle();
+        });
+	</script>
+{{end}}

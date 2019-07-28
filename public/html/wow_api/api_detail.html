@@ -6,8 +6,7 @@
 	<title>API Detail</title>
 	<link rel="stylesheet" href="/css/bootstrap.min.css">
 	<link rel="stylesheet" href="/css/common.css">
-	<script src="/js/jquery.min.js"></script>
-	<script src="/js/marked.min.js"></script>
+	<script src="/js/jquery.min.js" ></script>
 </head>
 <body>
 <div class="container">
@@ -60,7 +59,7 @@
 			$(".edit-input").removeAttr('readonly');
 		});
 		$("#save").click(function() {
-			$.post("/saveApi", {id: $("#name").attr('flag'), type: $("#name").attr('flag1'), nameCn: $("#name_cn").val(), desc: $("#desc").val(), infoDesc: $("#info_desc").val()}, function(resp) {
+			$.post("/apiUnverify", {id: $("#name").attr('flag'), type: $("#name").attr('flag1'), nameCn: $("#name_cn").val(), desc: $("#desc").val(), infoDesc: $("#info_desc").val()}, function(resp) {
 				$(".edit-cs").hide();
 				$(".show-cs").show();
 				fillText();

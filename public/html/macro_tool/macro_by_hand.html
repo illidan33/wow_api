@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>宏工具-手动组合</title>
+    {{template "macro_head_script" .}}
+</head>
+<body>
+{{template "macro_header"}}
+
+<div class="container" id="container">
+    <div class="row" id="content">
+        <div class="col-md-12">
+            <label class="h5 text-danger">一点都不熟悉的朋友，建议勿用此功能！！！，否组自己手动组合出的宏很大概率无法使用！！！ </label>
+        </div>
+        <div id="skill" class="col-sm-12 clearfix">
+            <h4>动作命令：</h4>
+            <div class="form-group">
+                <div class="col-sm-4">
+                    <select id="command_select" v-model="selectCommandKey" class="form-control" v-on:change='changeCommand'>
+                        <option v-for="item in commands" v-bind:value="item.index">
+                        ${item.desc}$&nbsp;&nbsp;==&nbsp;&nbsp;${item.name}$
+                        </option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div id="condition" class="col-sm-12 clearfix">
+            <h4>判断条件：</h4>
+            <div class="form-group" id="type_div">
+                <div class="col-sm-4">
+                    <select id="type_select" v-model="select_item" class="form-control" multiple="multiple" style="height: 400px;">
+                        <option v-for="item in conditions" v-bind:value="item.name">
+                        ${item.desc}$&nbsp;&nbsp;==&nbsp;&nbsp;${item.name}$
+                        </option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div id="hong" class="col-sm-12">
+            <div class="col-sm-10" style="margin: 20px 0px;">
+                <span class="h4">施放技能/喊话内容:</span>
+                <input class="form-control col-sm-10" type="text" placeholder="输入技能名称或喊话内容/Enter skill name" v-model="skillName">
+            </div>
+            <div class="col-sm-12">
+                <div class="clearfix">
+                    <button class="btn btn-info control-label col-xs-12 col-sm-5 col-md-3" v-on:click="insertMacro" style="margin: 0px 20px 10px 0px;">组合条件到宏模板</button>
+                    <button class="btn btn-info control-label col-xs-12 col-sm-5 col-md-3" v-on:click="copyHong">复制宏到游戏中</button>
+                </div>
+                <h4>宏模板：</h4>
+                <p style="font-size: 12px;">
+                    1. 每次重新选择完宏命令/判断条件之后，点击《组合条件到宏模板》按钮把所选选项放入宏模板中，可以多次选择，多次放入。<br>
+                    2. 技能将按照每一行，顺序执行。<br>
+                    3. 当前行的组合条件，条件符合则施放，不符合，继续下一行组合条件判定。<br>
+                    4. 以下宏模板可以手动修改。<br>
+                </p>
+                <textarea id="hong_text" class="form-control" rows="7" v-model="allMacro">${allMacro}$</textarea>
+            </div>
+
+        </div>
+    </div>
+</div>
+<br><br><br>
+<script src="/js/macroByHand.js"></script>
+</body>
+</html>
