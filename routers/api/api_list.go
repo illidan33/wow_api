@@ -12,7 +12,7 @@ func ApiList(c *gin.Context) {
 	pid := c.DefaultQuery("pid", "0")
 	tableType := c.DefaultQuery("type", "title-wow-api")
 
-	global.Config.Log.Debugf("ApiList, pid: %d, type: %s.", pid, tableType)
+	global.Config.Log.Debugf("ApiList, pid: %s, type: %s.", pid, tableType)
 
 	wowApis, err := modules.GetApiByParentID(tableType, pid)
 	if err != nil {

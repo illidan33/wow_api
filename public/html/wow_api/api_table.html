@@ -18,15 +18,7 @@
             if (api === "title-wow-event") {
                 pid = 0;
             }
-            $.get("/api/list", {pid: pid, type: api}, function (data) {
-                if (data) {
-                    let text = '';
-                    $.each(data.list, function (k, v) {
-                        text += '<tr flag="' + v.id + '"> <td><a href="/api/detail/' + v.id + '?type=' + api + '">' + v.name + '</a></td> <td>' + v.desc + '</td></tr>';
-                    });
-                    $("#api-list").html(text);
-                }
-            });
+            apiDetail(pid, api);
         })
 	</script>
 {{end}}

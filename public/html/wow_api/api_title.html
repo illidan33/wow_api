@@ -31,16 +31,8 @@
 					$("#api-select").text($(this).text());
 					$("#api-list").html("");
 
-					let id = $(this).attr("flag")
-					$.get("/api/list", {pid: id, type: api}, function(data) {
-						if (data) {
-							let text = '';
-							$.each(data.list, function(k, v) {
-								text += '<tr flag="' + v.id + '"> <td><a href="/api/detailIndex/' + api + '/' + v.id + '">' + v.name + '</a></td> <td>' + v.desc + '</td></tr>';
-							})
-							$("#api-list").html(text);
-						}
-					}, "json");
+					let pid = $(this).attr("flag");
+                    apiDetail(pid, api);
 
 					$("html,body").animate({scrollTop: 0}, 500);
 				});

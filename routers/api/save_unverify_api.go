@@ -32,6 +32,6 @@ func SaveUnverifyApi(c *gin.Context) {
 	if err != nil {
 		modules.Return(c, 500, errors.New("params error"))
 	} else {
-		modules.Return(c, 0, errors.New("params error"))
+		modules.Return(c, 0, "ok")
 	}
 }

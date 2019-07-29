@@ -9,4 +9,5 @@ type ApiUnverify struct {
 	Desc       string `json:"desc" gorm:"column:desc"`
 	InfoDesc   string `json:"infoDesc" gorm:"column:info_desc"`
 	CreateTime string `json:"createTime" gorm:"column:create_time"`
+	IsHandle   uint8  `json:"isHandle" gorm:"column:is_handle"`
 }

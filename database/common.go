@@ -6,11 +6,11 @@ type ApiUnit struct {
 	// 主键ID
 	ID uint64 `grom:"primary_key;column:id" json:"id"`
 	// 父级ID
-	ParentID uint64 `grom:"column:parent_id" json:"parent_id"`
+	ParentID uint64 `grom:"column:parent_id" json:"parentId"`
 	// 英文名称
 	Name string `grom:"column:name" json:"name"`
 	// 中文名称
-	NameCn string `grom:"column:name_cn" json:"name_cn"`
+	NameCn string `grom:"column:name_cn" json:"nameCn"`
 	// 描述
 	Desc string `grom:"column:desc" json:"desc"`
 	// 删除标识

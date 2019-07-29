@@ -34,7 +34,8 @@ func DetailIndex(c *gin.Context) {
 	}
 
 	c.HTML(http.StatusOK, "api_detail.html", gin.H{
-		"api": api,
+		"api":  api,
+		"type": apiType,
 	})
 }
 

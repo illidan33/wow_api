@@ -6,75 +6,102 @@
 	<title>API Detail</title>
 	<link rel="stylesheet" href="/css/bootstrap.min.css">
 	<link rel="stylesheet" href="/css/common.css">
-	<script src="/js/jquery.min.js" ></script>
+	<script src="/js/jquery.min.js"></script>
+	<script src="/js/marked.min.js"></script>
 </head>
 <body>
 <div class="container">
 	<div class="row" style="padding-bottom: 30px;">
-		<div class="col-md-8" style="color: white;">
-			<label class="h2" id="name" flag="{{.api.ID}}" flag1="{{.type}}" style="margin-right: 100px;">{{.api.Name}}</label>
+		<div class="col-md-12" style="color: white;">
+			<label class="h2" id="name" flag="{{.api.ID}}" flag1="{{.type}}">{{.api.Name}}</label>
 		</div>
-		<div class="col-md-4">
-			<button class="btn btn-info show-cs" id="edit">信息有误？点此编辑</button>
-			<button class="btn btn-info edit-cs" id="save">保存</button>
+		<div class="col-md-12" style="margin: 10px;">
+			<button class="btn btn-info show-cs" id="edit">信息有误？点此编辑提交最新资料!</button>
+			<button class="btn btn-info edit-cs" id="save">点次提交保存</button>
+			<button class="btn btn-info edit-cs" id="cancel">取消</button>
 		</div>
 	</div>
 	<div class="row">
 		<div class="col-md-12">
 			<div class="input-group">
 				<span class="input-group-addon" id="basic-addon0">中文名称：</span>
-				<input id="name_cn" type="text" class="form-control edit-input" placeholder="" aria-describedby="basic-addon0" value="{{.api.NameCn}}">
+				<input id="name_cn" type="text" class="form-control edit-input" placeholder=""
+					   aria-describedby="basic-addon0" value="{{.api.NameCn}}">
 			</div>
 		</div>
 		<div class="col-md-12" style="margin: 20px 0px;">
 			<div class="input-group">
 				<span class="input-group-addon" id="basic-addon1">简介：</span>
-				<input id="desc" type="text" class="form-control edit-input" placeholder="" aria-describedby="basic-addon1" value="{{.api.Desc}}">
+				<input id="desc" type="text" class="form-control edit-input" placeholder=""
+					   aria-describedby="basic-addon1" value="{{.api.Desc}}">
 			</div>
 		</div>
 		<div class="col-md-12 edit-cs">
 			<div class="input-group">
-				<span class="input-group-addon" id="basic-addon2">详情(支持markdown语法)：</span>
-				<textarea id="info_desc" cols="50" rows="30" class="form-control" style="resize: none;" aria-describedby="basic-addon2">{{.api.Desc}}</textarea>
+				<span class="input-group-addon" id="basic-addon2">详情：</span>
+				<textarea id="info_desc" class="form-control" style="resize: none;"
+						  aria-describedby="basic-addon2">{{.api.Desc}}</textarea>
 			</div>
 		</div>
 		<div class="col-md-12 show-cs">
-			<div class="input-group" style="height: 500px;">
-				<span class="input-group-addon" id="basic-addon3">详情(支持markdown语法)：</span>
-				<div id="target-text" class="form-control" aria-describedby="basic-addon3" style="height: 100%;"></div>
+			<div class="input-group">
+				<span class="input-group-addon" id="basic-addon3">详情：</span>
+				<div id="target-text" class="form-control" aria-describedby="basic-addon3"></div>
 			</div>
 		</div>
 	</div>
 </div>
 <br><br>
 <script>
-	$(function() {
-		$(".edit-cs").hide();
-		$(".edit-input").attr('readonly', 'readonly');
-		fillText();
+    function fillText() {
+        let htmlStr = marked($("#info_desc").val());
+        let reg = /<table>/g;
+        htmlStr = htmlStr.replace(reg, "<table class='table table-bordered'>");
+        $("#target-text").html(htmlStr);
+    }
 
-		$("#edit").click(function() {
-			$(".edit-cs").show();
-			$(".show-cs").hide();
-			$(".edit-input").removeAttr('readonly');
-		});
-		$("#save").click(function() {
-			$.post("/apiUnverify", {id: $("#name").attr('flag'), type: $("#name").attr('flag1'), nameCn: $("#name_cn").val(), desc: $("#desc").val(), infoDesc: $("#info_desc").val()}, function(resp) {
-				$(".edit-cs").hide();
-				$(".show-cs").show();
-				fillText();
-				$(".edit-input").attr('readonly', 'readonly');
-				alert('感谢提供最新信息，校验通过后即会展示！');
-			});
-		});
+    function editHide() {
+        $(".edit-cs").hide();
+        $(".show-cs").show();
 
-		function fillText() {
-			let htmlStr = marked($("#info_desc").val());
-			let reg = /<table>/g;
-			htmlStr = htmlStr.replace(reg, "<table class='table table-bordered'>")
-			$("#target-text").html(htmlStr);
-		}
-	})
+        $(".input-group .input-group-addon").addClass("show-background");
+        $(".input-group .form-control").addClass("show-background");
+    }
+
+    function editShow() {
+        $(".edit-cs").show();
+        $(".show-cs").hide();
+
+        $(".input-group .input-group-addon").removeClass("show-background");
+        $(".input-group .form-control").removeClass("show-background");
+    }
+
+    editHide();
+    $(function () {
+        fillText();
+
+        $("#edit").click(function () {
+            editShow();
+
+            $(".input-group .form-control").eq(0).focus();
+        });
+        $("#cancel").click(function () {
+            editHide();
+        });
+        $("#save").click(function () {
+            $.post("/api/apiUnverify", {
+                id: $("#name").attr('flag'),
+                type: $("#name").attr('flag1'),
+                nameCn: $("#name_cn").val(),
+                desc: $("#desc").val(),
+                infoDesc: $("#info_desc").val()
+            }, function (resp) {
+                fillText();
+                alert('感谢提供最新信息，校验通过后即会展示！');
+                editHide();
+            });
+        });
+    })
 </script>
 </body>
 </html>
