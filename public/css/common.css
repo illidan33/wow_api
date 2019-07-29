@@ -5,7 +5,7 @@ body {
 	background-attachment: fixed;
 	background-size: cover;*/
 	background-color: #080808;
-	color: white;
+	color: #cccccc;
 	/*margin-top: 70px;*/
 }
 
@@ -34,7 +34,7 @@ body {
 }
 
 a.list-group-item, button.list-group-item {
-	color: white;
+	color: #cccccc;
 }
 
 #title-header {
@@ -44,25 +44,25 @@ a.list-group-item, button.list-group-item {
 }
 
 .home-active, .active {
-	color: white;
+	color: #cccccc;
 	background-color: #080808;
 }
 
 table, table tr, table tr td {
-	color: white;
+	color: #cccccc;
 	background-color: #080808;
 }
 
-table .form-control {
-	color: white;
+table .form-control, table pre {
+	color: #cccccc;
 	padding: 10px;
 	border: 0px;
 	background-color: #080808;
 	border-radius: 5px;
 }
 
-.show-background{
-	color: white;
+.show-background {
+	color: #cccccc;
 	padding: 10px;
 	border: 0px;
 	background-color: #080808;

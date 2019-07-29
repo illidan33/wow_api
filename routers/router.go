@@ -23,7 +23,7 @@ func New() {
 	// Macro
 	Macro.GET("/", macro.Index)
 	Macro.GET("/byHandIndex", macro.ByHandIndex)
-	Macro.GET("/createIndex", macro.CreateIndex)
+	Macro.GET("/precreateIndex", macro.PreCreateIndex)
 	Macro.GET("/ctSequenceIndex", macro.CtSequenceIndex)
 	Macro.GET("/infoIndex", macro.InfoIndex)
 	Macro.GET("/listIndex", macro.ListIndex)
@@ -33,5 +33,6 @@ func New() {
 	Macro.GET("/preCreate", macro.PreCreate)
 	Macro.POST("/createSequence", macro.CreateSequence)
 	Macro.GET("/macroList", macro.MacroList)
+	Macro.POST("/", macro.CreateMacro)
 
 }

@@ -32,6 +32,10 @@ func MacroList(c *gin.Context) {
 	if err != nil {
 		modules.Return(c, 500, err)
 	} else {
-		modules.Return(c, 0, macros)
+		jsonMacros := make([]database.JsonMacro, 0)
+		for _, v := range macros {
+			jsonMacros = append(jsonMacros, v.JsonMacro)
+		}
+		modules.Return(c, 0, jsonMacros)
 	}
 }

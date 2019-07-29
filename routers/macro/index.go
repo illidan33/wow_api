@@ -23,10 +23,10 @@ func ByHandIndex(c *gin.Context) {
 	})
 }
 
-func CreateIndex(c *gin.Context) {
+func PreCreateIndex(c *gin.Context) {
 	modules.CreateLoginLog(c, "MacroCreateIndex")
 
-	c.HTML(http.StatusOK, "macro_create.html", gin.H{
+	c.HTML(http.StatusOK, "macro_precreate.html", gin.H{
 		"apiPage": "title-macro-create",
 	})
 }

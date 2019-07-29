@@ -18,7 +18,7 @@ func PreCreate(c *gin.Context) {
 	global.Config.Log.Debugf("MacroPreCreate macro: %s", name)
 
 	macros := make([]database.Macros, 0)
-	err := modules.DbConn.Where("macro like ?", fmt.Sprintf("%%%s%%", name)).Find(&macros).Error
+	err := modules.DbConn.Where("macro like ? and is_verify = 1", fmt.Sprintf("%%%s%%", name)).Find(&macros).Error
 	if err != nil {
 		modules.Return(c, 500, err)
 	} else {
