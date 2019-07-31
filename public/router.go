@@ -3,16 +3,12 @@ package public
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"github.com/illidan33/wow_api/global"
 	"net/http"
-	"os"
 )
 
 func New(router *gin.Engine) {
-	gopath := os.Getenv("GOPATH")
-	if gopath == "" {
-		panic("Get env of GOPATH failed.")
-	}
-	rootPath := fmt.Sprintf("%s/src/github.com/illidan33/wow_api/public/", gopath)
+	rootPath := fmt.Sprintf("%s/public/", global.Config.ApiRootPath)
 
 	// 设置页面路径
 	router.LoadHTMLGlob(rootPath + "html/*/*")
