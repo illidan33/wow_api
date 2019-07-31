@@ -8,6 +8,7 @@ import (
 )
 
 var Config = struct {
+	ListenHost  string
 	ListenPort  int32
 	DbHost      string
 	DbPort      int32
@@ -21,6 +22,7 @@ var Config = struct {
 	VerifyCode  string
 	ApiRootPath string
 }{
+	ListenHost:  "*",
 	ListenPort:  8001,
 	DbHost:      "127.0.0.1",
 	DbPort:      3306,

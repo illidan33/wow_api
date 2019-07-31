@@ -25,8 +25,6 @@ func main() {
 	if global.Config.LogLevel != logrus.DebugLevel {
 		gin.SetMode(gin.ReleaseMode)
 	}
-
-	// TODO
 	if os.Getenv("GOPATH") == "" {
 		global.Config.ApiRootPath = "/data/go/src/github.com/illidan33/wow_api"
 	}
@@ -38,7 +36,7 @@ func main() {
 	public.New(WowApi)
 
 	WowApi.GET("/", Index)
-	WowApi.Run(fmt.Sprintf("127.0.0.1:%d", global.Config.ListenPort))
+	WowApi.Run(fmt.Sprintf("%s:%d", global.Config.ListenHost, global.Config.ListenPort))
 }
 
 func Index(c *gin.Context) {
