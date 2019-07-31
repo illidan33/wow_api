@@ -26,6 +26,7 @@ func main() {
 		gin.SetMode(gin.ReleaseMode)
 	}
 
+	// TODO
 	if os.Getenv("GOPATH") == "" {
 		global.Config.ApiRootPath = "/data/go/src/github.com/illidan33/wow_api"
 	}
