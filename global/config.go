@@ -22,7 +22,7 @@ var Config = struct {
 	VerifyCode  string
 	ApiRootPath string
 }{
-	ListenHost:  "*",
+	ListenHost:  "127.0.0.1",
 	ListenPort:  8001,
 	DbHost:      "127.0.0.1",
 	DbPort:      3306,
