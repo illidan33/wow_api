@@ -100,22 +100,36 @@ func CreateLoginLog(c *gin.Context, html string) {
 
 func GetApiByParentID(tableType string, parentID string) (interface{}, error) {
 	switch tableType {
-	case "title-wow-api":
+	case "title-api":
 		apiList := make([]database.ApiWow, 0)
 		err := DbConn.Where("parent_id = ?", parentID).Find(&apiList).Error
 		if err != nil {
 			return nil, err
 		}
 		return apiList, nil
-	case "title-wow-macro":
+	case "title-macro":
 		apiList := make([]database.ApiMacro, 0)
 		err := DbConn.Where("parent_id = ?", parentID).Find(&apiList).Error
 		if err != nil {
 			return nil, err
 		}
 		return apiList, nil
-	case "title-wow-event":
+	case "title-event":
 		apiList := make([]database.ApiEvent, 0)
+		err := DbConn.Where("parent_id = ?", parentID).Find(&apiList).Error
+		if err != nil {
+			return nil, err
+		}
+		return apiList, nil
+	case "title-widget":
+		apiList := make([]database.ApiWidget, 0)
+		err := DbConn.Where("parent_id = ?", parentID).Find(&apiList).Error
+		if err != nil {
+			return nil, err
+		}
+		return apiList, nil
+	case "title-widgetHandler":
+		apiList := make([]database.ApiWidgetHandler, 0)
 		err := DbConn.Where("parent_id = ?", parentID).Find(&apiList).Error
 		if err != nil {
 			return nil, err

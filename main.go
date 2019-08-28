@@ -10,7 +10,6 @@ import (
 	"github.com/jinzhu/gorm"
 	"github.com/sirupsen/logrus"
 	"net/http"
-	"os"
 )
 
 var (
@@ -25,9 +24,6 @@ func main() {
 	if global.Config.LogLevel != logrus.DebugLevel {
 		gin.SetMode(gin.ReleaseMode)
 	}
-	if os.Getenv("GOPATH") == "" {
-		global.Config.ApiRootPath = "/data/go/src/github.com/illidan33/wow_api"
-	}
 
 	WowApi = gin.New()
 	routers.Api = WowApi.Group("/api")
@@ -36,6 +32,9 @@ func main() {
 	public.New(WowApi)
 
 	WowApi.GET("/", Index)
+	WowApi.NoRoute(func(c *gin.Context) {
+		c.JSON(http.StatusNotFound, nil)
+	})
 	WowApi.Run(fmt.Sprintf("%s:%d", global.Config.ListenHost, global.Config.ListenPort))
 }
 

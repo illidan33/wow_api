@@ -12,9 +12,9 @@ var Macro *gin.RouterGroup
 func New() {
 	// Api
 	Api.GET("/", api.HomeIndex)
-	Api.GET("/api/", api.ApiIndex)
-	Api.GET("/event", api.EventIndex)
-	Api.GET("/macro", api.MacroIndex)
+	Api.GET("/view/:name", api.ApiIndex)
+	//Api.GET("/event", api.EventIndex)
+	//Api.GET("/macro", api.MacroIndex)
 	Api.GET("/detail/:id", api.DetailIndex)
 
 	Api.GET("/list", api.ApiList)

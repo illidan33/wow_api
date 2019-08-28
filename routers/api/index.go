@@ -1,6 +1,7 @@
 package api
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/illidan33/wow_api/modules"
 	"net/http"
@@ -15,10 +16,31 @@ func HomeIndex(c *gin.Context) {
 }
 
 func ApiIndex(c *gin.Context) {
-	modules.CreateLoginLog(c, "ApiApiIndex")
+	name := c.Param("name")
 
-	c.HTML(http.StatusOK, "api_api.html", gin.H{
-		"apiPage": "title-wow-api",
+	var htmlName string
+	switch name {
+	case "api":
+		htmlName = "api_api.html"
+	case "event":
+		htmlName = "api_event.html"
+	case "macro":
+		htmlName = "api_macro.html"
+	case "widget":
+		htmlName = "api_widget.html"
+	case "widgetHandler":
+		htmlName = "api_widget_handler.html"
+	default:
+		htmlName = ""
+	}
+	if htmlName == "" {
+		c.HTML(http.StatusNotFound, "404.html", nil)
+		return
+	}
+	modules.CreateLoginLog(c, name)
+
+	c.HTML(http.StatusOK, htmlName, gin.H{
+		"apiPage": fmt.Sprintf("title-%s", name),
 	})
 }
 

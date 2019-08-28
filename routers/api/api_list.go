@@ -10,7 +10,7 @@ import (
 func ApiList(c *gin.Context) {
 	c.Request.ParseForm()
 	pid := c.DefaultQuery("pid", "0")
-	tableType := c.DefaultQuery("type", "title-wow-api")
+	tableType := c.DefaultQuery("type", "title-api")
 
 	global.Config.Log.Debugf("ApiList, pid: %s, type: %s.", pid, tableType)
 

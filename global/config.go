@@ -1,10 +1,8 @@
 package global
 
 import (
-	"fmt"
 	"github.com/rifflock/lfshook"
 	"github.com/sirupsen/logrus"
-	"os"
 )
 
 var Config = struct {
@@ -34,7 +32,7 @@ var Config = struct {
 	LogPath:     "./logs/log.txt",
 	LogLevel:    logrus.DebugLevel,
 	VerifyCode:  "testcode",
-	ApiRootPath: fmt.Sprintf("%s/src/github.com/illidan33/wow_api", os.Getenv("GOPATH")),
+	ApiRootPath: "/data/golang/go/src/github.com/illidan33/wow_api",
 }
 
 func init() {

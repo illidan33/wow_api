@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/illidan33/wow_api/global"
-	"net/http"
 )
 
 func New(router *gin.Engine) {
@@ -18,10 +17,4 @@ func New(router *gin.Engine) {
 	router.Static("/css", rootPath+"css")
 	//router.Static("/img", rootPath+"img")
 	router.StaticFile("/favicon.ico", rootPath+"favicon.ico")
-	router.NoRoute(func(c *gin.Context) {
-		c.JSON(http.StatusNotFound, gin.H{
-			"status": 404,
-			"error":  "404 Not Found",
-		})
-	})
 }
