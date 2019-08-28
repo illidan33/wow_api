@@ -21,10 +21,10 @@ func New() {
 	// Macro
 	Macro.GET("/", macro.Index)
 	Macro.GET("/view/:name", macro.ViewIndex)
-
 	Macro.GET("/preCreate", macro.PreCreate)
-	Macro.POST("/createSequence", macro.CreateSequence)
 	Macro.GET("/macroList", macro.MacroList)
+
+	Macro.POST("/createSequence", macro.CreateSequence)
 	Macro.PUT("/updateMacro", macro.UpdateMacro)
 	Macro.POST("/", macro.CreateMacro)
 
