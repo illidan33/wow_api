@@ -28,6 +28,7 @@ func main() {
 	WowApi = gin.New()
 	routers.Api = WowApi.Group("/api")
 	routers.Macro = WowApi.Group("/macro")
+	routers.MacroOld60 = WowApi.Group("/macro60")
 	routers.New()
 	public.New(WowApi)
 

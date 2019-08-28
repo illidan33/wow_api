@@ -7,14 +7,6 @@ import (
 	"net/http"
 )
 
-func HomeIndex(c *gin.Context) {
-	modules.CreateLoginLog(c, "ApiHomeIndex")
-
-	c.HTML(http.StatusOK, "api_index.html", gin.H{
-		"apiPage": "home",
-	})
-}
-
 func ApiIndex(c *gin.Context) {
 	name := c.Param("name")
 
@@ -30,14 +22,12 @@ func ApiIndex(c *gin.Context) {
 		htmlName = "api_widget.html"
 	case "widgetHandler":
 		htmlName = "api_widget_handler.html"
+	case "index":
+		htmlName = "api_index.html"
 	default:
-		htmlName = ""
+		htmlName = "api_index.html"
 	}
-	if htmlName == "" {
-		c.HTML(http.StatusNotFound, "404.html", nil)
-		return
-	}
-	modules.CreateLoginLog(c, name)
+	modules.CreateLoginLog(c, htmlName)
 
 	c.HTML(http.StatusOK, htmlName, gin.H{
 		"apiPage": fmt.Sprintf("title-%s", name),
@@ -45,7 +35,7 @@ func ApiIndex(c *gin.Context) {
 }
 
 func DetailIndex(c *gin.Context) {
-	modules.CreateLoginLog(c, "ApiDetailIndex")
+	modules.CreateLoginLog(c, "api_detail.html")
 
 	apiType := c.Query("type")
 	id := c.Param("id")

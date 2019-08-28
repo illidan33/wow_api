@@ -1,4 +1,4 @@
-package macro
+package macro60
 
 import (
 	"fmt"
@@ -14,28 +14,28 @@ func ViewIndex(c *gin.Context) {
 	var htmlName string
 	switch name {
 	case "byHand":
-		htmlName = "macro_by_hand.html"
+		htmlName = "macro60_by_hand.html"
 	case "precreate":
-		htmlName = "macro_precreate.html"
+		htmlName = "macro60_precreate.html"
 	case "ctSequence":
-		htmlName = "macro_ct_sequence.html"
+		htmlName = "macro60_ct_sequence.html"
 	case "info":
-		htmlName = "macro_info.html"
+		htmlName = "macro60_info.html"
 	case "list":
-		htmlName = "macro_list.html"
+		htmlName = "macro60_list.html"
 	case "share":
-		htmlName = "macro_share.html"
+		htmlName = "macro60_share.html"
 	case "verify":
 		code, _ := c.Cookie("token")
 		if code == "" || code != global.Config.VerifyCode {
 			c.HTML(http.StatusUnauthorized, "404.html", nil)
 			return
 		}
-		htmlName = "macro_verify.html"
+		htmlName = "macro60_verify.html"
 	case "index":
-		htmlName = "macro_index.html"
+		htmlName = "macro60_index.html"
 	default:
-		htmlName = "macro_index.html"
+		htmlName = "macro60_index.html"
 	}
 	modules.CreateLoginLog(c, htmlName)
 

@@ -14,5 +14,5 @@ type JsonMacro struct {
 	Macro      string    `gorm:"column:macro" json:"macro"`
 	UpdateTime time.Time `gorm:"column:updatetime" json:"updatetime"`
 	Author     string    `gorm:"column:author" json:"author"`
-	IsVerify     uint8 `gorm:"column:is_verify" json:"isVerify"`
+	IsVerify   uint8     `gorm:"column:is_verify" json:"isVerify"`
 }
