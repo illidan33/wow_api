@@ -33,6 +33,11 @@ func ViewIndex(c *gin.Context) {
 	case "share":
 		htmlName = "macro_share.html"
 	case "verify":
+		code, _ := c.Cookie("token")
+		if code == "" {
+			c.HTML(http.StatusUnauthorized, "404.html", nil)
+			return
+		}
 		htmlName = "macro_verify.html"
 	default:
 		htmlName = ""
