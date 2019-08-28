@@ -6,7 +6,6 @@ type Macros struct {
 	JsonMacro
 	MasteryID    int64 `gorm:"column:mastery_id" json:"masteryId"`
 	ProfessionID int64 `gorm:"column:profession_id" json:"professionId"`
-	IsVerify     uint8 `gorm:"column:is_verify" json:"isVerify"`
 }
 
 type JsonMacro struct {
@@ -15,4 +14,5 @@ type JsonMacro struct {
 	Macro      string    `gorm:"column:macro" json:"macro"`
 	UpdateTime time.Time `gorm:"column:updatetime" json:"updatetime"`
 	Author     string    `gorm:"column:author" json:"author"`
+	IsVerify     uint8 `gorm:"column:is_verify" json:"isVerify"`
 }

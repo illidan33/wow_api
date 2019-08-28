@@ -13,8 +13,6 @@ func New() {
 	// Api
 	Api.GET("/", api.HomeIndex)
 	Api.GET("/view/:name", api.ApiIndex)
-	//Api.GET("/event", api.EventIndex)
-	//Api.GET("/macro", api.MacroIndex)
 	Api.GET("/detail/:id", api.DetailIndex)
 
 	Api.GET("/list", api.ApiList)
@@ -22,17 +20,12 @@ func New() {
 
 	// Macro
 	Macro.GET("/", macro.Index)
-	Macro.GET("/byHandIndex", macro.ByHandIndex)
-	Macro.GET("/precreateIndex", macro.PreCreateIndex)
-	Macro.GET("/ctSequenceIndex", macro.CtSequenceIndex)
-	Macro.GET("/infoIndex", macro.InfoIndex)
-	Macro.GET("/listIndex", macro.ListIndex)
-	Macro.GET("/shareIndex", macro.ShareIndex)
-	Macro.GET("/verifyIndex", macro.VerifyIndex)
+	Macro.GET("/view/:name", macro.ViewIndex)
 
 	Macro.GET("/preCreate", macro.PreCreate)
 	Macro.POST("/createSequence", macro.CreateSequence)
 	Macro.GET("/macroList", macro.MacroList)
+	Macro.PUT("/updateMacro", macro.UpdateMacro)
 	Macro.POST("/", macro.CreateMacro)
 
 }

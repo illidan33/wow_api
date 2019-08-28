@@ -60,19 +60,3 @@ func DetailIndex(c *gin.Context) {
 		"type": apiType,
 	})
 }
-
-func EventIndex(c *gin.Context) {
-	modules.CreateLoginLog(c, "ApiEventIndex")
-
-	c.HTML(http.StatusOK, "api_event.html", gin.H{
-		"apiPage": "title-wow-event",
-	})
-}
-
-func MacroIndex(c *gin.Context) {
-	modules.CreateLoginLog(c, "ApiMacroIndex")
-
-	c.HTML(http.StatusOK, "api_macro.html", gin.H{
-		"apiPage": "title-wow-macro",
-	})
-}
