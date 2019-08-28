@@ -3,6 +3,7 @@ package macro
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"github.com/illidan33/wow_api/global"
 	"github.com/illidan33/wow_api/modules"
 	"net/http"
 )
@@ -34,7 +35,7 @@ func ViewIndex(c *gin.Context) {
 		htmlName = "macro_share.html"
 	case "verify":
 		code, _ := c.Cookie("token")
-		if code == "" {
+		if code == "" || code != global.Config.VerifyCode {
 			c.HTML(http.StatusUnauthorized, "404.html", nil)
 			return
 		}
