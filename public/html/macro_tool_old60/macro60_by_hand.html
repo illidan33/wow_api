@@ -225,9 +225,6 @@
         {desc: '没有施放技能xx', name: 'nochanneling:技能xx', type: '12'},
         {desc: '没有施放任何技能', name: 'nochanneling', type: '12'},
         {desc: '当前动作条是否是xx', name: 'actionbar:xx', type: '13'},
-        {desc: '当前专精是否是xx', name: 'spec:xx', type: '14'},
-        {desc: '是否选择天赋第x层第xx个技能', name: 'talent:x/xx', type: '15'},
-        {desc: '是否选择pvp天赋第x层第xx个技能', name: 'pvptalent:x/xx', type: '15'},
     ];
 
     vue.$data.templates = [
@@ -242,14 +239,6 @@
         {
             desc: '（伤害跟治疗技能一键）优先鼠标指向，鼠标指向敌人就用技能2，指向友人就用技能1，鼠标指向没有目标就是对当前目标用技能2(敌对)或者技能1(友善)，都没有目标就对自己用技能1',
             name: "/cast [@mouseover,help,nodead];[@mouseover,harm,nodead][harm,nodead];[]"
-        },
-        {
-            desc: '当前天赋第x层随技能选择,施放选择的技能( 需要自己修改x为对应的天赋层1-6 )',
-            name: '/cast [talent:x/1];[talent:x/2];[talent:x/3]'
-        },
-        {
-            desc: '当前荣誉天赋第x层随技能选择,施放选择的技能( 需要自己修改x为对应的天赋层1-6 )',
-            name: '/cast [pvptalent:x/1];[pvptalent:x/2];[pvptalent:x/3]'
         },
         {desc: '对目标施放范围技能', name: "/cast [@cursor];[]"},
     ];

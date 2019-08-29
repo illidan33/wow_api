@@ -36,11 +36,11 @@
 				</thead>
 				<tbody>
 				<tr v-for="(selectmacro, key) in macros" :id="'tr_macro_'+selectmacro.id">
-					<td class=""><input :id="'verify_'+selectmacro.id" type="text" v-bind:value="selectmacro.isVerify"/></td>
-					<td class="hidden-xs hidden-sm"><input :id="'author_'+selectmacro.id" type="text" v-bind:value="selectmacro.author"/></td>
-					<td class="hidden-xs"><textarea :id="'title_'+selectmacro.id" class="form-control" rows="4">${selectmacro.title}$</textarea></td>
+					<td class=""><input :id="'verify_'+selectmacro.id" type="text" v-bind:value="selectmacro.isVerify" style="color: black;"/></td>
+					<td class="hidden-xs hidden-sm"><input :id="'author_'+selectmacro.id" type="text" v-bind:value="selectmacro.author" style="color: black;"/></td>
+					<td class="hidden-xs"><textarea :id="'title_'+selectmacro.id" class="form-control" rows="4" style="background-color: white;color: black;">${selectmacro.title}$</textarea></td>
 					<td>
-						<textarea :id="'macro_'+selectmacro.id" class="form-control" rows="7">${selectmacro.macro}$</textarea>
+						<textarea :id="'macro_'+selectmacro.id" class="form-control" rows="7" style="background-color: white;color: black;">${selectmacro.macro}$</textarea>
 					</td>
 					<td>
 						<button class="btn btn-default" v-on:click="update(selectmacro.id)" :flag="selectmacro.id">修改</button>
@@ -108,10 +108,9 @@
                     }
                 ).then(function(response) {
                     // console.log(response);
-                    if ((response.data.result == "true" || response.data.result == true) &&
+                    if ((response.data.code == 0) &&
                         (isVerify === 1 || isVerify === "1")) {
-                        document.getElementById("verify_" +
-                            id).parentElement.parentElement.style.display = "none";
+                        document.getElementById("verify_" + id).parentElement.parentElement.style.display = "none";
                     }
                 });
 
