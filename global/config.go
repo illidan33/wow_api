@@ -6,22 +6,29 @@ import (
 )
 
 var Config = struct {
+	// 系统
 	ListenHost  string
 	ListenPort  int32
-	DbHost      string
-	DbPort      int32
-	DbUser      string
-	DbPwd       string
-	DbName      string
-	IsSaveLog   bool
-	LogPath     string
-	Log         *logrus.Logger
-	LogLevel    logrus.Level
-	VerifyCode  string
 	ApiRootPath string
+	// 数据库
+	DbHost string
+	DbPort int32
+	DbUser string
+	DbPwd  string
+	DbName string
+	// 日志
+	IsSaveLog bool
+	LogPath   string
+	Log       *logrus.Logger
+	LogLevel  logrus.Level
+	// 简单验证
+	VerifyCode string
+	// 统计天数
+	ChartDay int64
 }{
 	ListenHost:  "127.0.0.1",
 	ListenPort:  8001,
+	ApiRootPath: "/data/golang/go/src/github.com/illidan33/wow_api",
 	DbHost:      "127.0.0.1",
 	DbPort:      3306,
 	DbUser:      "testU",
@@ -31,8 +38,8 @@ var Config = struct {
 	Log:         logrus.New(),
 	LogPath:     "./logs/log.txt",
 	LogLevel:    logrus.DebugLevel,
-	VerifyCode:  "testcode",// 简单验证
-	ApiRootPath: "/data/golang/go/src/github.com/illidan33/wow_api",
+	VerifyCode:  "testcode",
+	ChartDay:    30,
 }
 
 func init() {
