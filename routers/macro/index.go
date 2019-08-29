@@ -32,9 +32,10 @@ func ViewIndex(c *gin.Context) {
 			return
 		}
 		htmlName = "macro_verify.html"
-	case "index":
+	case "home":
 		htmlName = "macro_index.html"
 	default:
+		name = "home"
 		htmlName = "macro_index.html"
 	}
 	modules.CreateLoginLog(c, htmlName)

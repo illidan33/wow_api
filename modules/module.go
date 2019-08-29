@@ -26,8 +26,6 @@ type LoginForGet struct {
 	Count     int    `json:"count" db:"count"`
 }
 
-
-
 type UnVerifyApi struct {
 	ApiID      int    `json:"apiID" db:"api_id"`
 	Type       string `json:"type" db:"type"`
@@ -36,4 +34,9 @@ type UnVerifyApi struct {
 	Desc       string `json:"desc" db:"desc"`
 	InfoDesc   string `json:"infoDesc" db:"info_desc"`
 	CreateTime string `json:"createTime" db:"create_time"`
+}
+
+type ChartData struct {
+	Name string  `json:"name"`
+	Data []int `json:"data"`
 }

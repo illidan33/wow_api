@@ -31,7 +31,7 @@ var Config = struct {
 	Log:         logrus.New(),
 	LogPath:     "./logs/log.txt",
 	LogLevel:    logrus.DebugLevel,
-	VerifyCode:  "testcode",
+	VerifyCode:  "testcode",// 简单验证
 	ApiRootPath: "/data/golang/go/src/github.com/illidan33/wow_api",
 }
 

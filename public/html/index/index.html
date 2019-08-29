@@ -8,7 +8,7 @@
 	<link rel="stylesheet" href="/css/common.css">
 	<script src="/js/jquery.min.js"></script>
 	<script>
-        let api = {{.apiPage}};
+		let api = {{.apiPage}};
 	</script>
 </head>
 <body>
@@ -36,29 +36,60 @@
 	</div>
 </nav>
 <script>
-    if (api !== "home") {
-        $("#" + api).addClass("active");
-    } else {
-        $("#" + api).addClass("home-active");
-    }
-    $(".collapsed").click(function () {
-        let tag = $(this).attr("data-target");
-        $(tag).toggle();
-    });
+	if (api !== "home") {
+		$("#" + api).addClass("active");
+	} else {
+		$("#" + api).addClass("home-active");
+	}
+	$(".collapsed").click(function() {
+		let tag = $(this).attr("data-target");
+		$(tag).toggle();
+	});
 </script>
 <div class="container">
 	<div class="row" id="content">
 		<div class="col-md-12">
-			<div class="panel-heading h2">WOW API</div>
-			<div class="panel-body" id="content-header">
-				<p>
-					该API项目的重点是提供魔兽API相关的内容的介绍，包括API参考材料，以及指南和教程文章。由于其范围广泛，该项目旨在引出各个子主题的资料，为API相关讨论提供了一个共同的平台。
-					<br>本站发布的内容若侵犯到您的权益，请联系站长删除，我们将及时处理。
-				</p>
+			<div class="panel-heading"><span class="h3">项目github地址：</span><a href="https://github.com/illidan33/wow_api">https://github.com/illidan33/wow_api</a></div>
+			<div class="panel-body">
+				<p>如果觉得该项目有帮助到你，请给一个Start！^_^</p>
+				<p>qq交流群：923174332，如果有什么建议欢迎联系。</p>
 			</div>
-
+			<div class="col-md-12">
+				<div class="panel-heading h2">WOW API</div>
+				<div class="panel-body">
+					<p>
+						该API项目的重点是提供魔兽API相关的内容的介绍，包括API参考材料，以及指南和教程文章。由于其范围广泛，该项目旨在引出各个子主题的资料，为API相关讨论提供了一个共同的平台。
+						<br>本站发布的内容若侵犯到您的权益，请联系站长删除，我们将及时处理。
+					</p>
+					<p>1. 游戏内部api查询</p>
+					<p>2. 游戏内部事件event查询</p>
+					<p>3. 游戏内部合法宏命令查询</p>
+				</div>
+			</div>
+			<div class="col-md-12">
+				<div class="panel-heading h2">宏工具</div>
+				<div class="panel-body">
+					<p>
+						该API项目的重点是提供魔兽API相关的内容的介绍，包括API参考材料，以及指南和教程文章。由于其范围广泛，该项目旨在引出各个子主题的资料，为API相关讨论提供了一个共同的平台。
+						<br>本站发布的内容若侵犯到您的权益，请联系站长删除，我们将及时处理。
+					</p>
+					<p>1. 快速创建（fast create）
+						提供给对游戏中宏命令感兴趣，却不懂的玩家，融合搜索和自动生成的功能，返回给玩家一个命令列表以供选择。
+						Players who are interested in the macro commands in the game but do not understand, combine the search and auto-generated functions, and return a list of commands to the player
+						for
+						selection.
+						手动组合（create by hand）
+					</p>
+					<p>2. 提供给熟悉游戏的玩家，通过工具，手动组合出自己所需的命令。
+						Provided to players who are familiar with the game, through the tools, manually combine the commands they need.
+					</p>
+					<p>3. 分享及搜索（share and search）
+						提供给玩家一个分享自己收集的宏命令的功能，同时也可以搜索其他玩家分享的宏命令。 -Provides the player with the ability to share the macro commands they have collected, as well as the macro commands shared by other
+						players.
+					</p>
+				</div>
+			</div>
 		</div>
 	</div>
-</div>
 </body>
 </html>

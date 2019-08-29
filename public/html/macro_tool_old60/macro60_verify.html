@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
 	<title>宏工具-审核/编辑</title>
-    {{template "macro_head_script" .}}
+    {{template "macro60_head_script" .}}
 </head>
 <body>
-{{template "macro_header"}}
+{{template "macro60_header"}}
 
 <div class="container" id="container">
 	<div class="row" id="content">
@@ -99,7 +99,7 @@
                 let title = document.getElementById("title_" + id).value;
                 let macro = document.getElementById("macro_" + id).value;
 
-                axios.put('/macro60/updateMacro', {
+                axios.put('/auth/macro60', {
                         id: parseInt(id),
                         isVerify: parseInt(isVerify),
                         author: author,

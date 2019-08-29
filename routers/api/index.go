@@ -22,9 +22,10 @@ func ApiIndex(c *gin.Context) {
 		htmlName = "api_widget.html"
 	case "widgetHandler":
 		htmlName = "api_widget_handler.html"
-	case "index":
+	case "home":
 		htmlName = "api_index.html"
 	default:
+		name = "home"
 		htmlName = "api_index.html"
 	}
 	modules.CreateLoginLog(c, htmlName)

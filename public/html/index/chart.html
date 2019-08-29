@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Chart</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<link rel="stylesheet" href="/css/bootstrap.min.css">
+	<script src="/js/jquery.min.js"></script>
+	<script src="/js/highcharts.js"></script>
+</head>
+<body>
+<div id="container"></div>
+<script type="text/javascript">
+	let options = {
+		title: {
+			text: '近期使用人数统计（独立ip）'
+		},
+		yAxis: {
+			title: {
+				text: '每日使用人数'
+			}
+		},
+		xAxis: {
+			title: {
+				text: '时间跨度'
+			},
+			categories: null,
+		},
+		legend: {
+			layout: 'vertical',
+			align: 'right',
+			verticalAlign: 'middle'
+		},
+		responsive: {
+			rules: [{
+				condition: {
+					maxWidth: 500
+				},
+				chartOptions: {
+					legend: {
+						layout: 'horizontal',
+						align: 'center',
+						verticalAlign: 'bottom'
+					}
+				}
+			}]
+		},
+		series: null,
+	};
+
+	let chart = Highcharts.chart('container', options);
+	$(function() {
+		$.get("/chart/data", {}, function(resp) {
+			console.log(resp);
+			if (resp.code == 0) {
+				chart.xAxis[0].setCategories(resp.title)
+				for (let i = 0; i < resp.data.length; i++) {
+					chart.addSeries(resp.data[i]);
+				}
+			}
+		});
+	})
+
+
+</script>
+</body>
+</html>

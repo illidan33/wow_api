@@ -7,6 +7,7 @@ import (
 	"github.com/illidan33/wow_api/modules"
 	"github.com/illidan33/wow_api/public"
 	"github.com/illidan33/wow_api/routers"
+	"github.com/illidan33/wow_api/routers/index"
 	"github.com/jinzhu/gorm"
 	"github.com/sirupsen/logrus"
 	"net/http"
@@ -26,21 +27,20 @@ func main() {
 	}
 
 	WowApi = gin.New()
+	routers.Chart = WowApi.Group("/chart")
+	routers.Chart.Use(index.AuthMiddleware)
+	routers.Auth = WowApi.Group("/auth")
+	routers.Auth.Use(index.AuthMiddleware)
+
 	routers.Api = WowApi.Group("/api")
 	routers.Macro = WowApi.Group("/macro")
 	routers.MacroOld60 = WowApi.Group("/macro60")
 	routers.New()
 	public.New(WowApi)
 
-	WowApi.GET("/", Index)
+	WowApi.GET("/", index.Index)
 	WowApi.NoRoute(func(c *gin.Context) {
 		c.JSON(http.StatusNotFound, nil)
 	})
 	WowApi.Run(fmt.Sprintf("%s:%d", global.Config.ListenHost, global.Config.ListenPort))
-}
-
-func Index(c *gin.Context) {
-	c.HTML(http.StatusOK, "index.html", gin.H{
-		"apiPage": "home",
-	})
 }
