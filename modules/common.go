@@ -116,7 +116,7 @@ func GetApiByParentID(tableType string, parentID string) (interface{}, error) {
 		return apiList, nil
 	case "title-event":
 		apiList := make([]database.ApiEvent, 0)
-		err := DbConn.Where("parent_id = ?", parentID).Find(&apiList).Error
+		err := DbConn.Where("parent_id = ?", 0).Find(&apiList).Error
 		if err != nil {
 			return nil, err
 		}
