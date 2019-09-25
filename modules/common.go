@@ -142,22 +142,36 @@ func GetApiByParentID(tableType string, parentID string) (interface{}, error) {
 
 func GetApiByID(tableType string, id string) (interface{}, error) {
 	switch tableType {
-	case "title-wow-api":
+	case "title-api":
 		api := database.ApiWow{}
 		err := DbConn.Where("id = ?", id).Find(&api).Error
 		if err != nil {
 			return nil, err
 		}
 		return api, nil
-	case "title-wow-macro":
+	case "title-macro":
 		api := database.ApiMacro{}
 		err := DbConn.Where("id = ?", id).Find(&api).Error
 		if err != nil {
 			return nil, err
 		}
 		return api, nil
-	case "title-wow-event":
+	case "title-event":
 		api := database.ApiEvent{}
+		err := DbConn.Where("id = ?", id).Find(&api).Error
+		if err != nil {
+			return nil, err
+		}
+		return api, nil
+	case "title-widget":
+		api := database.ApiWidget{}
+		err := DbConn.Where("id = ?", id).Find(&api).Error
+		if err != nil {
+			return nil, err
+		}
+		return api, nil
+	case "title-widgetHandler":
+		api := database.ApiWidgetHandler{}
 		err := DbConn.Where("id = ?", id).Find(&api).Error
 		if err != nil {
 			return nil, err

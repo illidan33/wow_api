@@ -4,12 +4,11 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 	<title>API Detail</title>
-	<link rel="stylesheet" href="/css/bootstrap.min.css">
-	<link rel="stylesheet" href="/css/common.css">
-	<script src="/js/jquery.min.js"></script>
+    {{template "api_head_script" .}}
 	<script src="/js/marked.min.js"></script>
 </head>
 <body>
+{{template "api_header"}}
 <div class="container">
 	<div class="row" style="padding-bottom: 30px;">
 		<div class="col-md-12" style="color: white;">
@@ -25,83 +24,80 @@
 		<div class="col-md-12">
 			<div class="input-group">
 				<span class="input-group-addon" id="basic-addon0">中文名称：</span>
-				<input id="name_cn" type="text" class="form-control edit-input" placeholder=""
-					   aria-describedby="basic-addon0" value="{{.api.NameCn}}">
+				<input id="name_cn" type="text" class="form-control edit-input" placeholder="" aria-describedby="basic-addon0" value="{{.api.NameCn}}">
 			</div>
 		</div>
 		<div class="col-md-12" style="margin: 20px 0px;">
 			<div class="input-group">
 				<span class="input-group-addon" id="basic-addon1">简介：</span>
-				<input id="desc" type="text" class="form-control edit-input" placeholder=""
-					   aria-describedby="basic-addon1" value="{{.api.Desc}}">
+				<input id="desc" type="text" class="form-control edit-input" placeholder="" aria-describedby="basic-addon1" value="{{.api.Desc}}">
 			</div>
 		</div>
 		<div class="col-md-12 edit-cs">
 			<div class="input-group">
 				<span class="input-group-addon" id="basic-addon2">详情：</span>
-				<textarea id="info_desc" class="form-control" style="resize: none;"
-						  aria-describedby="basic-addon2">{{.api.Desc}}</textarea>
+				<textarea id="info_desc" class="form-control" style="resize: none;" rows="13" aria-describedby="basic-addon2">{{.api.Desc}}</textarea>
 			</div>
 		</div>
 		<div class="col-md-12 show-cs">
 			<div class="input-group">
 				<span class="input-group-addon" id="basic-addon3">详情：</span>
-				<div id="target-text" class="form-control" aria-describedby="basic-addon3"></div>
+				<div id="target-text" class="form-control" aria-describedby="basic-addon3" style="height: auto;"></div>
 			</div>
 		</div>
 	</div>
 </div>
 <br><br>
 <script>
-    function fillText() {
-        let htmlStr = marked($("#info_desc").val());
-        let reg = /<table>/g;
-        htmlStr = htmlStr.replace(reg, "<table class='table table-bordered'>");
-        $("#target-text").html(htmlStr);
-    }
+	function fillText() {
+		let htmlStr = marked($("#info_desc").val());
+		let reg = /<table>/g;
+		htmlStr = htmlStr.replace(reg, "<table class='table table-bordered'>");
+		$("#target-text").html(htmlStr);
+	}
 
-    function editHide() {
-        $(".edit-cs").hide();
-        $(".show-cs").show();
+	function editHide() {
+		$(".edit-cs").hide();
+		$(".show-cs").show();
 
-        $(".input-group .input-group-addon").addClass("show-background");
-        $(".input-group .form-control").addClass("show-background");
-    }
+		$(".input-group .input-group-addon").addClass("show-background");
+		$(".input-group .form-control").addClass("show-background");
+	}
 
-    function editShow() {
-        $(".edit-cs").show();
-        $(".show-cs").hide();
+	function editShow() {
+		$(".edit-cs").show();
+		$(".show-cs").hide();
 
-        $(".input-group .input-group-addon").removeClass("show-background");
-        $(".input-group .form-control").removeClass("show-background");
-    }
+		$(".input-group .input-group-addon").removeClass("show-background");
+		$(".input-group .form-control").removeClass("show-background");
+	}
 
-    editHide();
-    $(function () {
-        fillText();
+	editHide();
+	$(function() {
+		fillText();
 
-        $("#edit").click(function () {
-            editShow();
+		$("#edit").click(function() {
+			editShow();
 
-            $(".input-group .form-control").eq(0).focus();
-        });
-        $("#cancel").click(function () {
-            editHide();
-        });
-        $("#save").click(function () {
-            $.post("/api/apiUnverify", {
-                id: $("#name").attr('flag'),
-                type: $("#name").attr('flag1'),
-                nameCn: $("#name_cn").val(),
-                desc: $("#desc").val(),
-                infoDesc: $("#info_desc").val()
-            }, function (resp) {
-                fillText();
-                alert('感谢提供最新信息，校验通过后即会展示！');
-                editHide();
-            });
-        });
-    })
+			$(".input-group .form-control").eq(0).focus();
+		});
+		$("#cancel").click(function() {
+			editHide();
+		});
+		$("#save").click(function() {
+			$.post("/api/apiUnverify", {
+				id: $("#name").attr('flag'),
+				type: $("#name").attr('flag1'),
+				nameCn: $("#name_cn").val(),
+				desc: $("#desc").val(),
+				infoDesc: $("#info_desc").val()
+			}, function(resp) {
+				fillText();
+				alert('感谢提供最新信息，校验通过后即会展示！');
+				editHide();
+			});
+		});
+	})
 </script>
 </body>
 </html>

@@ -1,70 +1,39 @@
-body {
-	/*background-image: url('../img/bg.jpg');
-	background-repeat: no-repeat;
-	background-position: center center;
-	background-attachment: fixed;
-	background-size: cover;*/
-	background-color: #080808;
-	color: #cccccc;
-	/*margin-top: 70px;*/
-}
-
-.navbar-inverse .navbar-nav > .active > a {
-	/*background-color: #337ab7;
-	border-radius: 10px;*/
-}
-
-#content, #container, .container {
-	/*background-color: #080808;*/
-	background-color: rgba(0, 0, 0, 0.7);
-}
-
-.well {
-	background-color: #080808;
-}
-
 #title-ul li {
 	cursor: pointer;
 }
 
-.list-group-item {
-	background-color: #080808;
-	background-color: rgba(0, 0, 0, 0.4);
-	border-color: #337ab7;
+.navbar-nav {
+	display: inline-block;
+	height: 50px;
 }
 
-a.list-group-item, button.list-group-item {
-	color: #cccccc;
+.navbar-nav > li, .navbar-nav > li > a {
+	display: inline-block;
+	padding-top: 0px;
+	padding-bottom: 0px;
+	height: 50px;
+	line-height: 50px;
 }
-
-#title-header {
-	/*height: 700px;*/
-	/*overflow-y: auto;*/
-	/*overflow-x: hidden;*/
-}
-
-.home-active, .active {
-	color: #cccccc;
-	background-color: #080808;
-}
-
-table, table tr, table tr td {
-	color: #cccccc;
-	background-color: #080808;
-}
-
-table .form-control, table pre {
-	color: #cccccc;
-	padding: 10px;
-	border: 0px;
-	background-color: #080808;
+.navbar-nav > li{
+	border: 1px solid #333333;
 	border-radius: 5px;
 }
 
-.show-background {
-	color: #cccccc;
-	padding: 10px;
-	border: 0px;
-	background-color: #080808;
-	border-radius: 5px;
+.navbar-nav > li:hover {
+	background-color: white;
+}
+
+.navbar-inverse .navbar-nav > li > a:hover {
+	color: black;
+}
+
+#home, .home-active, .active {
+	color: white;
+	background-color: black;
+}
+
+
+
+#title-ul > .list-group-item {
+	cursor: pointer;
 }

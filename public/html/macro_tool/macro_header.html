@@ -9,7 +9,7 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a id="title-home" class="navbar-brand" href="/macro">Macro Home</a>
+				<a id="title-home" class="navbar-brand" href="/">首页</a>
 			</div>
 
 			<div class="collapse navbar-collapse" id="collapse-header">
@@ -29,7 +29,7 @@
 		if (api !== "title-home") {
 			$("#" + api).addClass("active");
 		} else {
-			$("#" + api).addClass("home-active");
+			$("#" + api).css("color", "white");
 		}
 		$(".collapsed").click(function() {
 			let tag = $(this).attr("data-target");

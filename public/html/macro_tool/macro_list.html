@@ -43,18 +43,17 @@
 					</tr>
 					</thead>
 					<tbody>
-					<tr v-for="select_macro in macros">
+					<tr v-for="(select_macro,i) in macros" v-bind:key="select_macro.id">
 						<td class="col-md-2 hidden-xs hidden-sm">${select_macro.author}$</td>
 						<td class="col-md-2 hidden-xs hidden-sm">${select_macro.title}$</td>
 						<td class="col-md-7 col-xs-12 col-sm-12">
 							<p class="visible-xs">作者：${select_macro.author}$</p>
-							<p class="visible-xs">标题：${select_macro.title}$</p>
-							<textarea class="form-control" rows="13"
-									  id="macro_text">${select_macro.macro}$</textarea><br>
-							<button class="btn btn-default visible-xs visible-sm" v-on:click="copyMacro">复制</button>
+							<p class="visible-xs">标题：${select_macro.title}$-${select_macro.id}$</p>
+							<textarea class="form-control" rows="13" v-bind:id="'macro_text_'+i" >${select_macro.macro}$</textarea><br>
+							<button class="btn btn-default visible-xs visible-sm" v-on:click="copyMacro(i)">复制</button>
 						</td>
 						<td class="col-md-1 hidden-xs hidden-sm">
-							<button class="btn btn-default" v-on:click="copyMacro">复制</button>
+							<button class="btn btn-default" v-on:click="copyMacro(i)">复制</button>
 						</td>
 					</tr>
 					</tbody>
@@ -65,82 +64,83 @@
 </div>
 <br><br><br>
 <script>
-    let vue = new Vue({
-        el: "#container",
-        delimiters: ['${', '}$'],
-        data: {
-            professions: [
-                {'id': 1, 'name': '猎人'},
-                {'id': 10, 'name': '德鲁伊'},
-                {'id': 20, 'name': '死亡骑士'},
-                {'id': 30, 'name': '法师'},
-                {'id': 40, 'name': '圣骑士'},
-                {'id': 50, 'name': '牧师'},
-                {'id': 60, 'name': '盗贼'},
-                {'id': 70, 'name': '萨满祭司'},
-                {'id': 80, 'name': '术士'},
-                {'id': 90, 'name': '战士'},
-                {'id': 100, 'name': '武僧'},
-                {'id': 110, 'name': '恶魔猎手'},
-                {'id': 120, 'name': '其他'},
-            ],
-            select_pid: '',
-            macros: [],
-            select_macro: []
-        },
-        methods: {
-            search: function() {
-                let pid = document.getElementById("profession").value;
-                if (!pid) {
-                    alert('职业或专精未选择！');
-                    return false;
-                }
-                vue.$data.select_macro = [];
-                vue.$data.macros = [];
+	let vue = new Vue({
+		el: "#container",
+		delimiters: ['${', '}$'],
+		data: {
+			professions: [
+				{'id': 1, 'name': '猎人'},
+				{'id': 10, 'name': '德鲁伊'},
+				{'id': 20, 'name': '死亡骑士'},
+				{'id': 30, 'name': '法师'},
+				{'id': 40, 'name': '圣骑士'},
+				{'id': 50, 'name': '牧师'},
+				{'id': 60, 'name': '盗贼'},
+				{'id': 70, 'name': '萨满祭司'},
+				{'id': 80, 'name': '术士'},
+				{'id': 90, 'name': '战士'},
+				{'id': 100, 'name': '武僧'},
+				{'id': 110, 'name': '恶魔猎手'},
+				{'id': 120, 'name': '其他'},
+			],
+			select_pid: '',
+			macros: [],
+			select_macro: []
+		},
+		methods: {
+			search: function() {
+				let pid = document.getElementById("profession").value;
+				if (!pid) {
+					alert('职业或专精未选择！');
+					return false;
+				}
+				vue.$data.select_macro = [];
+				vue.$data.macros = [];
 
-                axios.get('/macro/macroList', {
-                    params: {
-                        professionId: pid,
-                    }
-                })
-                    .then(function(response) {
-                        vue.$data.macros = response.data.data;
-                    })
-                    .catch(function(error) {
-                        console.log(error);
-                    })
-                    .then(function() {
-                        // always executed
-                    });
-            },
-            changeMacro: function() {
-                let id = document.getElementById("macro_id").value;
-                if (!id) {
-                    vue.$data.select_macro = [];
-                    return;
-                }
-                axios.get('/macro/macroList', {
-                    params: {
-                        id: id,
-                    }
-                })
-                    .then(function(response) {
-                        vue.$data.select_macro = response.data.data[0];
-                    })
-                    .catch(function(error) {
-                        console.log(error);
-                    })
-                    .then(function() {
-                        // always executed
-                    });
-            },
-            copyMacro: function() {
-                document.getElementById("macro_text").select();
-                document.execCommand("Copy");
-                alert("已复制^-^！");
-            },
-        },
-    });
+				axios.get('/macro/macroList', {
+					params: {
+						professionId: pid,
+					}
+				})
+					.then(function(response) {
+						vue.$data.macros = response.data.data;
+					})
+					.catch(function(error) {
+						console.log(error);
+					})
+					.then(function() {
+						// always executed
+					});
+			},
+			changeMacro: function() {
+				let id = document.getElementById("macro_id").value;
+				if (!id) {
+					vue.$data.select_macro = [];
+					return;
+				}
+				axios.get('/macro/macroList', {
+					params: {
+						id: id,
+					}
+				})
+					.then(function(response) {
+						vue.$data.select_macro = response.data.data[0];
+					})
+					.catch(function(error) {
+						console.log(error);
+					})
+					.then(function() {
+						// always executed
+					});
+			},
+			copyMacro: function(id) {
+				// console.log(id);
+				document.getElementById("macro_text_" + id).select();
+				document.execCommand("Copy");
+				alert("已复制^-^！");
+			},
+		},
+	});
 </script>
 </body>
 </html>

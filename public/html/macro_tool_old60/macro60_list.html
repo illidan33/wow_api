@@ -43,18 +43,17 @@
 					</tr>
 					</thead>
 					<tbody>
-					<tr v-for="select_macro in macros">
+					<tr v-for="(select_macro,i) in macros">
 						<td class="col-md-2 hidden-xs hidden-sm">${select_macro.author}$</td>
 						<td class="col-md-2 hidden-xs hidden-sm">${select_macro.title}$</td>
 						<td class="col-md-7 col-xs-12 col-sm-12">
 							<p class="visible-xs">作者：${select_macro.author}$</p>
 							<p class="visible-xs">标题：${select_macro.title}$</p>
-							<textarea class="form-control" rows="13"
-									  id="macro_text">${select_macro.macro}$</textarea><br>
-							<button class="btn btn-default visible-xs visible-sm" v-on:click="copyMacro">复制</button>
+							<textarea class="form-control" rows="13" v-bind:id="'macro_text_'+i">${select_macro.macro}$</textarea><br>
+							<button class="btn btn-default visible-xs visible-sm" v-on:click="copyMacro(i)">复制</button>
 						</td>
 						<td class="col-md-1 hidden-xs hidden-sm">
-							<button class="btn btn-default" v-on:click="copyMacro">复制</button>
+							<button class="btn btn-default" v-on:click="copyMacro(i)">复制</button>
 						</td>
 					</tr>
 					</tbody>
@@ -131,11 +130,12 @@
                         // always executed
                     });
             },
-            copyMacro: function() {
-                document.getElementById("macro_text").select();
-                document.execCommand("Copy");
-                alert("已复制^-^！");
-            },
+			copyMacro: function(id) {
+				// console.log(id);
+				document.getElementById("macro_text_" + id).select();
+				document.execCommand("Copy");
+				alert("已复制^-^！");
+			},
         },
     });
 </script>
