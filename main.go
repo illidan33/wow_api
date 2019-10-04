@@ -10,7 +10,6 @@ import (
 	"github.com/illidan33/wow_api/routers/index"
 	"github.com/jinzhu/gorm"
 	"github.com/sirupsen/logrus"
-	"net/http"
 )
 
 var (
@@ -39,8 +38,6 @@ func main() {
 	public.New(WowApi)
 
 	WowApi.GET("/", index.Index)
-	WowApi.NoRoute(func(c *gin.Context) {
-		c.JSON(http.StatusNotFound, nil)
-	})
+	WowApi.NoRoute(index.Index)
 	WowApi.Run(fmt.Sprintf("%s:%d", global.Config.ListenHost, global.Config.ListenPort))
 }
