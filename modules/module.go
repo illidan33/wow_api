@@ -37,6 +37,6 @@ type UnVerifyApi struct {
 }
 
 type ChartData struct {
-	Name string  `json:"name"`
-	Data []int `json:"data"`
+	Name string `json:"name"`
+	Data []int  `json:"data"`
 }

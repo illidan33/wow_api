@@ -2,14 +2,17 @@ package api
 
 import (
 	"errors"
+	"fmt"
 	"github.com/gin-gonic/gin"
-	"github.com/illidan33/wow_api/database"
-	"github.com/illidan33/wow_api/modules"
+	"github.com/illidan33/wow_tools/database"
+	"github.com/illidan33/wow_tools/modules"
 	"strconv"
 	"time"
 )
 
 func SaveUnverifyApi(c *gin.Context) {
+	modules.CreateLoginLog(c, fmt.Sprintf("api_save_unverify", ), 2)
+
 	c.Request.ParseForm()
 
 	id, _ := strconv.Atoi(c.PostForm("id"))

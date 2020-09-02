@@ -1,12 +1,12 @@
 package modules
 
 import (
-	"errors"
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"github.com/illidan33/wow_api/database"
-	"github.com/illidan33/wow_api/global"
+	"github.com/illidan33/wow_tools/database"
+	"github.com/illidan33/wow_tools/global"
 	"net/http"
+	"strings"
 )
 
 func Return(c *gin.Context, code int32, resp interface{}) {
@@ -29,6 +29,37 @@ func Return(c *gin.Context, code int32, resp interface{}) {
 			"code": code,
 			"data": resp,
 		})
+	}
+}
+
+func ReturnPage(c *gin.Context, code int32, pageNo int64, pageSize int64, resp interface{}) {
+	if e, ok := resp.(error); ok {
+		global.Config.Log.Error(e)
+		if e.Error() == "record not found" {
+			c.JSON(http.StatusOK, gin.H{
+				"code": code,
+				"msg":  "Interner Error",
+			})
+		} else {
+			c.JSON(http.StatusOK, gin.H{
+				"code": code,
+				"msg":  e.Error(),
+			})
+		}
+
+	} else {
+		if pageSize == -1 {
+			c.JSON(http.StatusOK, gin.H{
+				"code": code,
+				"data": resp,
+			})
+		} else {
+			c.JSON(http.StatusOK, gin.H{
+				"code":   code,
+				"pageNo": pageNo,
+				"data":   resp,
+			})
+		}
 	}
 }
 
@@ -94,92 +125,151 @@ func CreateSequence(temps []MacroSequence) (macroText []string, maxTime int) {
 	return macroText, maxTime
 }
 
-func CreateLoginLog(c *gin.Context, html string) {
-	go UpdateOrCreateLog(c.ClientIP(), html)
+func CreateLoginLog(c *gin.Context, html string, t uint8) {
+	go UpdateOrCreateLog(c.ClientIP(), html, t)
 }
 
+// 获取项目的子项目
 func GetApiByParentID(tableType string, parentID string) (interface{}, error) {
-	switch tableType {
-	case "title-api":
-		apiList := make([]database.ApiWow, 0)
-		err := DbConn.Where("parent_id = ?", parentID).Find(&apiList).Error
-		if err != nil {
-			return nil, err
-		}
-		return apiList, nil
-	case "title-macro":
-		apiList := make([]database.ApiMacro, 0)
-		err := DbConn.Where("parent_id = ?", parentID).Find(&apiList).Error
-		if err != nil {
-			return nil, err
-		}
-		return apiList, nil
-	case "title-event":
-		apiList := make([]database.ApiEvent, 0)
-		err := DbConn.Where("parent_id = ?", 0).Find(&apiList).Error
-		if err != nil {
-			return nil, err
-		}
-		return apiList, nil
-	case "title-widget":
-		apiList := make([]database.ApiWidget, 0)
-		err := DbConn.Where("parent_id = ?", parentID).Find(&apiList).Error
-		if err != nil {
-			return nil, err
-		}
-		return apiList, nil
-	case "title-widgetHandler":
-		apiList := make([]database.ApiWidgetHandler, 0)
-		err := DbConn.Where("parent_id = ?", parentID).Find(&apiList).Error
-		if err != nil {
-			return nil, err
-		}
-		return apiList, nil
-	default:
-		return nil, errors.New("no such type")
+	simples := make([]database.SimpleApiItem, 0)
+	t := GetApiTypeByTableType(tableType)
+	apiList := make([]database.ApiItem, 0)
+
+	err := DbConn.Where("parent_id = ? and type = ?", parentID, t).Find(&apiList).Error
+	if err != nil {
+		return nil, err
 	}
+	for _, api := range apiList {
+		simple := database.SimpleApiItem{
+			ID:     api.ApiID,
+			Name:   api.Name,
+			NameCn: api.NameCn,
+			Desc:   api.Desc,
+		}
+		simples = append(simples, simple)
+	}
+	return simples, nil
 }
 
-func GetApiByID(tableType string, id string) (interface{}, error) {
-	switch tableType {
-	case "title-api":
-		api := database.ApiWow{}
-		err := DbConn.Where("id = ?", id).Find(&api).Error
-		if err != nil {
-			return nil, err
-		}
-		return api, nil
-	case "title-macro":
-		api := database.ApiMacro{}
-		err := DbConn.Where("id = ?", id).Find(&api).Error
-		if err != nil {
-			return nil, err
-		}
-		return api, nil
-	case "title-event":
-		api := database.ApiEvent{}
-		err := DbConn.Where("id = ?", id).Find(&api).Error
-		if err != nil {
-			return nil, err
-		}
-		return api, nil
-	case "title-widget":
-		api := database.ApiWidget{}
-		err := DbConn.Where("id = ?", id).Find(&api).Error
-		if err != nil {
-			return nil, err
-		}
-		return api, nil
-	case "title-widgetHandler":
-		api := database.ApiWidgetHandler{}
-		err := DbConn.Where("id = ?", id).Find(&api).Error
-		if err != nil {
-			return nil, err
-		}
-		return api, nil
+// 转换前端的tableType为api类型
+func GetApiTypeByTableType(tbType string) (t uint8) {
+	switch tbType {
+	case "api":
+		t = 1
+	case "macro":
+		t = 3
+	case "event":
+		t = 2
+	case "widget":
+		t = 4
+	case "widgetHandler":
+		t = 5
 	default:
-		return nil, errors.New("no such type")
+		t = 0
 	}
+	return
+}
+func GetTbTypeByApiType(t uint8) (tbType string) {
+	switch t {
+	case 1:
+		tbType = "api"
+	case 3:
+		tbType = "macro"
+	case 2:
+		t = 2
+		tbType = "event"
+	case 4:
+		tbType = "widget"
+	case 5:
+		tbType = "widgetHandler"
+	default:
+		tbType = ""
+	}
+	return
+}
+
+// 获取详情
+func GetApiByID(id string) (simpleApi database.SimpleApiItem, err error) {
+	api := database.ApiItem{}
+	err = DbConn.Where("api_id = ?", id).Find(&api).Error
+	if err != nil {
+		return
+	}
+
+	simpleApi = database.SimpleApiItem{
+		ID:     api.ApiID,
+		Name:   api.Name,
+		NameCn: api.NameCn,
+		Desc:   api.Desc,
+	}
+	return
+}
+
+func GetApiListBySearchText(s string) (simpleApis []database.SearchApiItem, err error) {
+	apis := make([]database.ApiItem, 0)
+
+	err = DbConn.Where("parent_id!=? and type != ? and name like ?", 0, 2, "%"+s+"%").Find(&apis).Error
+	if err != nil {
+		return
+	}
+	for _, api := range apis {
+		simpleApi := database.SearchApiItem{
+			SimpleApiItem: database.SimpleApiItem{
+				ID:     api.ApiID,
+				Name:   api.Name,
+				NameCn: api.NameCn,
+				Desc:   api.Desc,
+			},
+			Type: GetTbTypeByApiType(api.Type),
+		}
+		simpleApis = append(simpleApis, simpleApi)
+	}
+	events := make([]database.ApiItem, 0)
+	err = DbConn.Where("type = ? and name like ?", 2, "%"+s+"%").Find(&events).Error
+	if err != nil {
+		return
+	}
+	for _, api := range events {
+		simpleApi := database.SearchApiItem{
+			SimpleApiItem: database.SimpleApiItem{
+				ID:     api.ApiID,
+				Name:   api.Name,
+				NameCn: api.NameCn,
+				Desc:   api.Desc,
+			},
+			Type: "event",
+		}
+		simpleApis = append(simpleApis, simpleApi)
+	}
+	return
+}
+
+func GetApiDetailUrlByID(tableType string, name string) (url string) {
+	switch tableType {
+	case "api":
+		url = fmt.Sprintf("https://wow.gamepedia.com/API_%s", name)
+	case "macro":
+		url = fmt.Sprintf("https://wow.gamepedia.com/MACRO_%s", name)
+	case "event":
+		url = fmt.Sprintf("https://wow.gamepedia.com/%s", name)
+	case "widget":
+		nameArr := strings.Split(name, "：")
+		if len(nameArr) > 1 {
+			url = fmt.Sprintf("https://wow.gamepedia.com/API_%s_%s", nameArr[0], nameArr[1])
+		} else {
+			nameArr := strings.Split(name, ":")
+			if len(nameArr) > 1 {
+				url = fmt.Sprintf("https://wow.gamepedia.com/API_%s_%s", nameArr[0], nameArr[1])
+			} else {
+				url = fmt.Sprintf("https://wow.gamepedia.com/API_%s", name)
+			}
+		}
+	case "widgetHandler":
+		url = fmt.Sprintf("https://wow.gamepedia.com/UIHANDLER_%s", name)
+	default:
+		url = ""
+	}
+	return
 }
 
 type QueryFilter struct {

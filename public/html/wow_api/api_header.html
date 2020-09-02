@@ -9,29 +9,46 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a id="title-home" class="navbar-brand" href="/">首页</a>
+				<a id="home" class="navbar-brand" href="/">API首页</a>
+			</div>
+
+			<div class="navbar-form navbar-left">
+				<div class="form-group">
+					<input type="text" id="search" class="form-control" placeholder="Search">
+				</div>
+				<button type="submit" id="submit" class="btn btn-default">Submit</button>
 			</div>
 
 			<div class="collapse navbar-collapse" id="collapse-header">
 				<ul class="nav navbar-nav">
-					<li id="title-api"><a href="/api/view/api">魔兽世界 API</a></li>
-					<li id="title-event"><a href="/api/view/event">游戏事件 API</a></li>
-					<li id="title-macro"><a href="/api/view/macro">宏命令列表</a></li>
-					<li id="title-widget"><a href="/api/view/widget">部件UI API</a></li>
-					<li id="title-widgetHandler"><a href="/api/view/widgetHandler">部件处理 API</a></li>
+					<li id="api"><a href="/api/view/api">魔兽世界 API</a></li>
+					<li id="event"><a href="/api/view/event">游戏事件 API</a></li>
+					<li id="macro"><a href="/api/view/macro">宏命令列表</a></li>
+					<li id="widget"><a href="/api/view/widget">部件UI API</a></li>
+					<li id="widgetHandler"><a href="/api/view/widgetHandler">部件处理 API</a></li>
 				</ul>
-			</div><!-- /.navbar-collapse -->
+			</div>
 		</div>
 	</nav>
 	<script>
-        if (api !== "title-home") {
-            $("#" + api).addClass("active");
-        } else {
-            $("#" + api).css("color", "white");
-        }
-        $(".collapsed").click(function () {
-            let tag = $(this).attr("data-target");
-            $(tag).toggle();
-        });
+		$("#" + api).addClass("active");
+		if (api == "home") {
+			$("#" + api).css("color", "white");
+		}
+		$(".collapsed").click(function() {
+			var tag = $(this).attr("data-target");
+			$(".navbar-nav").css("height", "100px");
+			$(tag).toggle();
+		});
+		$("#submit").click(function() {
+			var s = $("#search").val();
+			window.location.href = "/api/view/search_list?s=" + s;
+		});
+		$('#search').bind('keydown', function(event) {
+			if (event.keyCode == "13") {
+				var s = $(this).val();
+				window.location.href = "/api/view/search_list?s=" + s;
+			}
+		});
 	</script>
 {{end}}

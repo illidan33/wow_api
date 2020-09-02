@@ -1,10 +1,10 @@
 {{define "title"}}
-<div id="title-ul" class="list-group">
+<div id="title-ul" class="list-group" style="height: 700px;overflow-y: auto;border: 2px solid black;border-radius: 5px;">
 </div>
 <script>
 	$(function() {
 		$.get("/api/list", {pid: 0, type: api}, function(data) {
-			let text = "";
+			var text = "";
 			if (data) {
 				$.each(data.list, function(k, v) {
 					if (k === 0) {
@@ -31,7 +31,7 @@
 					$("#api-select").text($(this).text());
 					$("#api-list").html("");
 
-					let pid = $(this).attr("flag");
+					var pid = $(this).attr("flag");
                     apiDetail(pid, api);
 
 					$("html,body").animate({scrollTop: 0}, 500);

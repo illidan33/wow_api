@@ -1,16 +1,17 @@
 package api
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
-	"github.com/illidan33/wow_api/global"
-	"github.com/illidan33/wow_api/modules"
+	"github.com/illidan33/wow_tools/global"
+	"github.com/illidan33/wow_tools/modules"
 	"net/http"
 )
 
 func ApiList(c *gin.Context) {
 	c.Request.ParseForm()
 	pid := c.DefaultQuery("pid", "0")
-	tableType := c.DefaultQuery("type", "title-api")
+	tableType := c.DefaultQuery("type", "api")
 
 	global.Config.Log.Debugf("ApiList, pid: %s, type: %s.", pid, tableType)
 
@@ -19,6 +20,8 @@ func ApiList(c *gin.Context) {
 		modules.Return(c, 500, err.Error())
 		return
 	}
+
+	modules.CreateLoginLog(c, fmt.Sprintf("api_%s_list", tableType), 2)
 	c.JSON(http.StatusOK, gin.H{
 		"list": wowApis,
 	})

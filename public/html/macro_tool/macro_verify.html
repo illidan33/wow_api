@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>宏工具-审核/编辑</title>
     {{template "macro_head_script" .}}
 </head>
 <body>
@@ -10,18 +9,11 @@
 <div class="container" id="container">
 	<div class="row" id="content">
 		<div class="form-group col-sm-12 clearfix">
-			<select class="form-control col-xs-12 col-sm-12 col-md-2 col-lg-2" id="profession" name="profession_id">
-				<option value="0">
-					全部
-				</option>
-				<option v-for="item in professions" v-bind:value="item.id">
-					${item.name}$
-				</option>
+			<select class="form-control col-xs-12" id="profession" style="margin: 10px 0px;">
+				<option value="0">全部</option>
+				<option v-for="item in professions" v-bind:value="item.id">${item.name}$</option>
 			</select>
-			<select id="verify" name="verify" class="form-control col-xs-12 col-sm-12 col-md-2 col-lg-2" style="margin: 10px 0px;">
-				<option value="2" selected>未审核</option>
-			</select>
-			<button type="button" class="btn btn-success col-xs-12 col-sm-12 col-md-1" v-on:click="search">查询</button>
+			<button type="button" class="btn btn-success col-xs-12" v-on:click="search">查询</button>
 		</div>
 		<div class="form-group col-sm-12">
 			<table class="table col-sm-12">
@@ -50,54 +42,37 @@
 			</table>
 		</div>
 	</div>
+    {{template "common_footer"}}
 </div>
 <script>
-	let vue = new Vue({
+	var vue = new Vue({
 		el: "#container",
 		delimiters: ['${', '}$'],
 		data: {
-			professions: [
-				{"id": 1, "name": "猎人"},
-				{"id": 10, "name": "德鲁伊"},
-				{"id": 20, "name": "死亡骑士"},
-				{"id": 30, "name": "法师"},
-				{"id": 40, "name": "圣骑士"},
-				{"id": 50, "name": "牧师"},
-				{"id": 60, "name": "盗贼"},
-				{"id": 70, "name": "萨满祭司"},
-				{"id": 80, "name": "术士"},
-				{"id": 90, "name": "战士"},
-				{"id": 100, "name": "武僧"},
-				{"id": 110, "name": "恶魔猎手"},
-				{"id": 120, "name": "其他"},
-			],
+			professions: [],
 			macros: [],
 		},
 		methods: {
 			search: function() {
-				let verify = document.getElementById("verify");
-				isVerify = verify.value;
-				let professionId = document.getElementById("profession").value;
+				var professionId = $("#profession").val();
 				axios.get('/macro/macroList', {
 					params: {
-						isVerify: isVerify,
+						isVerify: 2,
 						professionId: professionId,
+						v: "v"
 					}
 				})
 					.then(function(response) {
 						// console.log(response);
 						vue.$data.macros = response.data.data;
-					})
-					.catch(function(error) {
-						// console.log(error);
 					});
 			},
 			update: function(id) {
 				// console.log(id);
-				let isVerify = document.getElementById("verify_" + id).value;
-				let author = document.getElementById("author_" + id).value;
-				let title = document.getElementById("title_" + id).value;
-				let macro = document.getElementById("macro_" + id).value;
+				var isVerify = document.getElementById("verify_" + id).value;
+				var author = document.getElementById("author_" + id).value;
+				var title = document.getElementById("title_" + id).value;
+				var macro = document.getElementById("macro_" + id).value;
 
 				axios.put('/auth/macro', {
 						id: parseInt(id),
@@ -117,7 +92,13 @@
 				// console.log(id);
 			}
 		},
+	});
+	axios.get('/macro/professionList', {
+		params: {}
 	})
+		.then(function(response) {
+			vue.$data.professions = response.data.data;
+		});
 </script>
 </body>
 </html>

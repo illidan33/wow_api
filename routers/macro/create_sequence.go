@@ -4,8 +4,8 @@ import (
 	"errors"
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"github.com/illidan33/wow_api/global"
-	"github.com/illidan33/wow_api/modules"
+	"github.com/illidan33/wow_tools/global"
+	"github.com/illidan33/wow_tools/modules"
 	"math"
 	"net/http"
 	"strings"
@@ -31,5 +31,7 @@ func CreateSequence(c *gin.Context) {
 	macros, maxTime := modules.CreateSequence(sequenceList)
 	maxTime = int(math.Ceil(float64(maxTime) / 100))
 	macroText := fmt.Sprintf("#showtooltip <br>/castsequence reset=%d %s", maxTime, strings.Join(macros, ","))
+
+	modules.CreateLoginLog(c, "macro_ctSequence", 2)
 	c.JSON(http.StatusOK, gin.H{"code": 0, "text": macroText, "desc": fmt.Sprintf("- 最后一次按键【%d】秒后，将重置<br>- 技能按照左侧循环，时间和技能顺序可以自己修改！", maxTime)})
 }

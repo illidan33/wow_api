@@ -14,7 +14,8 @@
 	height: 50px;
 	line-height: 50px;
 }
-.navbar-nav > li{
+
+.navbar-nav > li {
 	border: 1px solid #333333;
 	border-radius: 5px;
 }
@@ -27,12 +28,10 @@
 	color: black;
 }
 
-#home, .home-active, .active {
+.home-active, .active {
 	color: white;
 	background-color: black;
 }
-
-
 
 #title-ul > .list-group-item {
 	cursor: pointer;

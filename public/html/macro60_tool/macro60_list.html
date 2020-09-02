@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {{template "macro60_head_script" .}}
+</head>
+<body>
+{{template "macro60_header"}}
+
+<div class="container" id="container">
+	<div class="row" id="content">
+		<div id="macrolist" class="col-sm-12">
+			<div class="form-group col-sm-12">
+				<label for="profession" class="col-xs-12 col-sm-12 col-md-12">选择宏所属职业、专精：</label>
+				<select class="form-control" v-on:change="search" id="profession" name="profession_id"
+						v-model="select_pid">
+					<option value="">
+						请选择
+					</option>
+					<option v-for="item in professions" v-bind:value="item.id">
+						${item.name}$
+					</option>
+				</select>
+			</div>
+			<!--<div class="form-group col-sm-12">
+				<select class="form-control" id="macro_id" name="macro_id" v-on:change="changeMacro">
+					<option id="first_macro" value="">
+						空
+					</option>
+					<option v-for="macro in macros" v-bind:value="macro.id">
+						${macro.title}$
+					</option>
+				</select>
+			</div>-->
+			<div class="form-group col-sm-12">
+				<table class="table table-striped col-sm-12">
+					<thead>
+					<tr>
+						<th class="col-md-2 hidden-xs hidden-sm">作者</th>
+						<th class="col-md-2 hidden-xs hidden-sm">标题</th>
+						<th class="col-md-7 col-xs-12 col-sm-12">宏模板</th>
+						<th class="col-md-1 hidden-xs hidden-sm">操作</th>
+					</tr>
+					</thead>
+					<tbody>
+					<tr v-for="(select_macro,i) in macros">
+						<td class="col-md-2 hidden-xs hidden-sm">${select_macro.author}$</td>
+						<td class="col-md-2 hidden-xs hidden-sm">${select_macro.title}$</td>
+						<td class="col-md-7 col-xs-12 col-sm-12">
+							<p class="visible-xs">作者：${select_macro.author}$</p>
+							<p class="visible-xs">标题：${select_macro.title}$</p>
+							<textarea class="form-control" rows="7" v-bind:id="'macro_text_'+i">${select_macro.macro}$</textarea><br>
+							<button class="btn btn-default visible-xs visible-sm" v-on:click="copyMacro(i)">复制</button>
+						</td>
+						<td class="col-md-1 hidden-xs hidden-sm">
+							<button class="btn btn-default" v-on:click="copyMacro(i)">复制</button>
+						</td>
+					</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+    {{template "common_footer"}}
+</div>
+<br><br><br>
+<script>
+	var vue = new Vue({
+		el: "#container",
+		delimiters: ['${', '}$'],
+		data: {
+			professions: [],
+			select_pid: '',
+			macros: [],
+			select_macro: []
+		},
+		methods: {
+			search: function() {
+				var pid = document.getElementById("profession").value;
+				if (!pid) {
+					alert('职业或专精未选择！');
+					return false;
+				}
+				vue.$data.select_macro = [];
+				vue.$data.macros = [];
+
+				axios.get('/macro60/macroList', {
+					params: {
+						professionId: pid,
+					}
+				})
+					.then(function(response) {
+						vue.$data.macros = response.data.data;
+					})
+					.catch(function(error) {
+						console.log(error);
+					})
+					.then(function() {
+						// always executed
+					});
+			},
+			changeMacro: function() {
+				var id = document.getElementById("macro_id").value;
+				if (!id) {
+					vue.$data.select_macro = [];
+					return;
+				}
+				axios.get('/macro60/macroList', {
+					params: {
+						id: id,
+					}
+				})
+					.then(function(response) {
+						vue.$data.select_macro = response.data.data[0];
+					})
+					.catch(function(error) {
+						console.log(error);
+					})
+					.then(function() {
+						// always executed
+					});
+			},
+			copyMacro: function(id) {
+				// console.log(id);
+				document.getElementById("macro_text_" + id).select();
+				document.execCommand("Copy");
+				alert("已复制^-^！");
+			},
+		},
+	});
+	axios.get('/macro/professionList', {
+		params: {
+			v: 60,
+		}
+	})
+		.then(function(response) {
+			vue.$data.professions = response.data.data;
+		});
+</script>
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {{template "macro_head_script" .}}
+	<style>
+		.pagination a {
+			cursor: pointer;
+		}
+
+		.form-inline > .form-group {
+			margin: 10px;
+		}
+	</style>
+</head>
+<body>
+{{template "macro_header"}}
+
+<div class="container" id="container">
+	<div class="row">
+		<p>组合多个技能到一个键位，节省键位，条件需要的，则输入技能，不需要的保留空。</p>
+		<p style="color: red;">注意：技能名称一定不要填错！!!可以在游戏中按P键查看具体的技能名称!</p>
+	</div>
+	<div class="row" id="content">
+		<div class="form-inline">
+			<div class="form-group">
+				<label for="mousehp">鼠标指向是友方，则施放技能：</label>
+				<input class="form-control" type="text" id="mousehp" name="mousehp"/>
+			</div>
+			<div class="form-group">
+				<label for="mousehp">鼠标指向是敌方，则施放技能：</label>
+				<input class="form-control" type="text" id="mousehm" name="mousehm"/>
+			</div>
+			<div class="form-group">
+				<label for="mousehp">存在焦点目标，则施放技能：</label>
+				<input class="form-control" type="text" id="focus" name="focus"/>
+			</div>
+			<div class="form-group">
+				<label for="mousehp">当前目标是友方，则施放技能：</label>
+				<input class="form-control" type="text" id="tarhp" name="tarhp"/>
+			</div>
+			<div class="form-group">
+				<label for="mousehp">当前目标是敌方，则施放技能：</label>
+				<input class="form-control" type="text" id="tarhm" name="tarhm"/>
+			</div>
+			<div class="form-group">
+				<label for="mousehp">按住shift键，则施放技能：</label>
+				<input class="form-control" type="text" id="shift" name="shift"/>
+			</div>
+			<div class="form-group">
+				<label for="mousehp">按住alt键，则施放技能：</label>
+				<input class="form-control" type="text" id="alt" name="alt"/>
+			</div>
+			<div class="form-group">
+				<label for="mousehp">按住ctrl键，则施放技能：</label>
+				<input class="form-control" type="text" id="ctrl" name="ctrl"/>
+			</div>
+			<div class="form-group">
+				<label for="mousehp">以上条件都不满足，则对自身施放技能(一般用于buff类、治疗类技能)(二选一)：</label>
+				<input class="form-control" type="text" id="player" name="player"/>
+			</div>
+			<div class="form-group">
+				<label for="mousehp">以上条件都不满足，则默认施放技能（二选一）：</label>
+				<input class="form-control" type="text" id="default" name="default"/>
+			</div>
+			<div class="form-group col-md-12">
+				<button id="submit" class="btn btn-success">组合</button>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<pre id="result"></pre>
+	</div>
+	<br><br><br>
+    {{template "common_footer"}}
+</div>
+<br><br><br>
+<script>
+	$(function() {
+		$("#submit").click(function() {
+			var player = $("#player").val();
+			var def = $("#default").val();
+			if (player != "" && def != "") {
+				alert("对自身施放和默认施放只能二者选其一");
+				return
+			}
+			axios.post('/macro/combineSkills', {
+				mousehp: $("#mousehp").val(),
+				mousehm: $("#mousehm").val(),
+				focus: $("#focus").val(),
+				tarhp: $("#tarhp").val(),
+				tarhm: $("#tarhm").val(),
+				shift: $("#shift").val(),
+				alt: $("#alt").val(),
+				ctrl: $("#ctrl").val(),
+				player: player,
+				default: def,
+			})
+				.then(function(response) {
+					$("#result").text(response.data.data);
+				});
+		});
+	})
+</script>
+</body>
+</html>

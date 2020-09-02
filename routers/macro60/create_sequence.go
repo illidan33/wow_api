@@ -4,14 +4,16 @@ import (
 	"errors"
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"github.com/illidan33/wow_api/global"
-	"github.com/illidan33/wow_api/modules"
+	"github.com/illidan33/wow_tools/global"
+	"github.com/illidan33/wow_tools/modules"
 	"math"
 	"net/http"
 	"strings"
 )
 
 func CreateSequence(c *gin.Context) {
+	modules.CreateLoginLog(c, "macro60_ctSequence", 2)
+
 	sequenceList := make([]modules.MacroSequence, 0)
 	err := c.Bind(&sequenceList)
 	if err != nil {

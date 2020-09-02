@@ -1,15 +1,15 @@
 package modules
 
 import (
-	"github.com/illidan33/wow_api/database"
-	"github.com/illidan33/wow_api/global"
+	"github.com/illidan33/wow_tools/database"
+	"github.com/illidan33/wow_tools/global"
 	"time"
 )
 
 // 创建登录日志
-func CreateLog(ip string, method string) error {
+func createLog(ip string, method string, t uint8) error {
 	now := time.Now()
-	t := now.Format("2006-01-02 15:04:05")
+	tm := now.Format("2006-01-02 15:04:05")
 
 	log := database.ApiLoginLog{
 		ID:         0,
@@ -17,8 +17,9 @@ func CreateLog(ip string, method string) error {
 		Method:     method,
 		LoginDate:  now.Format("2006-01-02"),
 		Count:      1,
-		CreateTime: t,
-		UpdateTime: t,
+		CreateTime: tm,
+		UpdateTime: tm,
+		Type:       t,
 	}
 
 	err := DbConn.Create(&log).Error
@@ -29,14 +30,14 @@ func CreateLog(ip string, method string) error {
 	return nil
 }
 
-func UpdateOrCreateLog(ip string, method string) error {
+func UpdateOrCreateLog(ip string, method string, t uint8) error {
 	date := time.Now().Format("2006-01-02")
 
 	log := database.ApiLoginLog{}
-	err := DbConn.Where("ip = ? and method = ? and login_date = ?", ip, method, date).First(&log).Error
+	err := DbConn.Where("ip = ? and method = ? and login_date = ? and type = ?", ip, method, date, t).First(&log).Error
 	if err != nil {
 		if IsNotFound(err) {
-			err = CreateLog(ip, method)
+			err = createLog(ip, method, t)
 			if err != nil {
 				return err
 			}
@@ -47,7 +48,7 @@ func UpdateOrCreateLog(ip string, method string) error {
 	log.Count += 1
 
 	err = DbConn.Model(&log).Update(database.ApiLoginLog{
-		Count: log.Count,
+		Count:      log.Count,
 		UpdateTime: time.Now().Format("2006-01-02 15:04:05"),
 	}).Error
 	if err != nil {

@@ -27,8 +27,8 @@ var Config = struct {
 	ChartDay int64
 }{
 	ListenHost:  "127.0.0.1",
-	ListenPort:  8001,
-	ApiRootPath: "/data/golang/go/src/github.com/illidan33/wow_api",
+	ListenPort:  8002,
+	ApiRootPath: "/data/golang/go/src/github.com/illidan33/wow_tools",
 	DbHost:      "127.0.0.1",
 	DbPort:      3306,
 	DbUser:      "testU",
@@ -39,7 +39,7 @@ var Config = struct {
 	LogPath:     "./logs/log.txt",
 	LogLevel:    logrus.DebugLevel,
 	VerifyCode:  "testcode",
-	ChartDay:    30,
+	ChartDay:    20,
 }
 
 func init() {

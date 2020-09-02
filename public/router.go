@@ -3,7 +3,7 @@ package public
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"github.com/illidan33/wow_api/global"
+	"github.com/illidan33/wow_tools/global"
 )
 
 func New(router *gin.Engine) {

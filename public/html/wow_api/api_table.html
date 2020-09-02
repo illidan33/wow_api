@@ -13,12 +13,12 @@
 		</tbody>
 	</table>
 	<script>
-        $(function () {
-            let pid = 1;
-            if (api === "title-wow-event") {
-                pid = 0;
-            }
-            apiDetail(pid, api);
-        })
+		$(function() {
+			var pid = $("#title-ul active").eq(0).attr("flag");
+			if (api === "event") {
+				pid = 0;
+			}
+			apiDetail(pid, api);
+		})
 	</script>
 {{end}}

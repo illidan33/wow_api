@@ -1,17 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Widget API</title>
 	{{template "api_head_script" .}}
 </head>
 <body>
 {{template "api_header"}}
 <div class="container">
 	<div class="row" id="content">
-		<div id="title-header" class="col-md-3">
+		<div id="title-header" class="col-md-3 col-xs-4">
 		{{template "title"}}
 		</div>
-		<div class="col-md-9">
+		<div class="col-md-9 col-xs-8">
 			<div class="panel-heading h2">部件 UI API</div>
 			<div class="panel-body">
 				<p>
@@ -23,6 +22,7 @@
 			{{template "table"}}
 		</div>
 	</div>
+    {{template "common_footer"}}
 </div>
 </body>
 </html>

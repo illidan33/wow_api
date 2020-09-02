@@ -3,16 +3,28 @@ package database
 import "time"
 
 type Macros struct {
-	JsonMacro
-	MasteryID    int64 `gorm:"column:mastery_id" json:"masteryId"`
-	ProfessionID int64 `gorm:"column:profession_id" json:"professionId"`
+	ID           int64     `gorm:"column:id" json:"id"`
+	UpdateTime   time.Time `gorm:"column:updatetime" json:"updatetime"`
+	IsVerify     uint8     `gorm:"column:is_verify" json:"isVerify"`
+	MasteryID    int64     `gorm:"column:mastery_id" json:"masteryId"`
+	ProfessionID int64     `gorm:"column:profession_id" json:"professionId"`
+
+	SimpleMacro
 }
 
-type JsonMacro struct {
-	ID         int64     `gorm:"column:id" json:"id"`
-	Title      string    `gorm:"column:title" json:"title"`
-	Macro      string    `gorm:"column:macro" json:"macro"`
-	UpdateTime time.Time `gorm:"column:updatetime" json:"updatetime"`
-	Author     string    `gorm:"column:author" json:"author"`
-	IsVerify   uint8     `gorm:"column:is_verify" json:"isVerify"`
+type SimpleMacro struct {
+	Title  string `gorm:"column:title" json:"title"`
+	Macro  string `gorm:"column:macro" json:"macro"`
+	Author string `gorm:"column:author" json:"author"`
+}
+
+type Profession struct {
+	PID     int64 `gorm:"column:pid" json:"pid"`
+	Version int8  `gorm:"column:version" json:"version"`
+	SimpleProfession
+}
+
+type SimpleProfession struct {
+	ID   int64  `gorm:"column:id" json:"id"`
+	Name string `gorm:"column:name" json:"name"`
 }

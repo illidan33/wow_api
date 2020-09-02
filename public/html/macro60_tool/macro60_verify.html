@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {{template "macro60_head_script" .}}
+</head>
+<body>
+{{template "macro60_header"}}
+
+<div class="container" id="container">
+	<div class="row" id="content">
+		<div class="form-group col-sm-12 clearfix">
+			<select class="form-control col-xs-12 col-sm-12 col-md-2 col-lg-2" id="profession" name="profession_id" style="margin: 10px 0px;">
+				<option value="0">
+					全部
+				</option>
+				<option v-for="item in professions" v-bind:value="item.id">
+					${item.name}$
+				</option>
+			</select>
+			<button type="button" class="btn btn-success col-xs-12 col-sm-12 col-md-1" v-on:click="search">查询</button>
+		</div>
+		<div class="form-group col-sm-12">
+			<table class="table col-sm-12">
+				<thead>
+				<tr>
+					<th class="col-sm-1 col-md-1">状态</th>
+					<th class="col-sm-2 hidden-xs hidden-sm">作者</th>
+					<th class="col-sm-3 hidden-xs">标题</th>
+					<th class="col-sm-6">宏模板</th>
+					<th>操作</th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr v-for="(selectmacro, key) in macros" :id="'tr_macro_'+selectmacro.id">
+					<td class=""><input :id="'verify_'+selectmacro.id" type="text" v-bind:value="selectmacro.isVerify" style="color: black;"/></td>
+					<td class="hidden-xs hidden-sm"><input :id="'author_'+selectmacro.id" type="text" v-bind:value="selectmacro.author" style="color: black;"/></td>
+					<td class="hidden-xs"><textarea :id="'title_'+selectmacro.id" class="form-control" rows="4" style="background-color: white;color: black;">${selectmacro.title}$</textarea></td>
+					<td>
+						<textarea :id="'macro_'+selectmacro.id" class="form-control" rows="7" style="background-color: white;color: black;">${selectmacro.macro}$</textarea>
+					</td>
+					<td>
+						<button class="btn btn-default" v-on:click="update(selectmacro.id)" :flag="selectmacro.id">修改</button>
+					</td>
+				</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+    {{template "common_footer"}}
+</div>
+<script>
+	var vue = new Vue({
+		el: "#container",
+		delimiters: ['${', '}$'],
+		data: {
+			professions: [],
+			macros: [],
+		},
+		methods: {
+			search: function() {
+				var professionId = document.getElementById("profession").value;
+				axios.get('/macro60/macroList', {
+					params: {
+						isVerify: 2,
+						professionId: professionId,
+						v: "v",
+					}
+				})
+					.then(function(response) {
+						// console.log(response);
+						vue.$data.macros = response.data.data;
+					})
+					.catch(function(error) {
+						// console.log(error);
+					});
+			},
+			update: function(id) {
+				// console.log(id);
+				var isVerify = document.getElementById("verify_" + id).value;
+				var author = document.getElementById("author_" + id).value;
+				var title = document.getElementById("title_" + id).value;
+				var macro = document.getElementById("macro_" + id).value;
+
+				axios.put('/auth/macro60', {
+						id: parseInt(id),
+						isVerify: parseInt(isVerify),
+						author: author,
+						title: title,
+						macro: macro,
+					}
+				).then(function(response) {
+					// console.log(response);
+					if ((response.data.code == 0) &&
+						(isVerify === 1 || isVerify === "1")) {
+						document.getElementById("verify_" + id).parentElement.parentElement.style.display = "none";
+					}
+				});
+
+				// console.log(id);
+			}
+		},
+	})
+	axios.get('/macro/professionList', {
+		params: {
+			v: 60,
+		}
+	})
+		.then(function(response) {
+			vue.$data.professions = response.data.data;
+		});
+</script>
+</body>
+</html>

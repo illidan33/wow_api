@@ -3,7 +3,7 @@ package modules
 import (
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
-	"github.com/illidan33/wow_api/global"
+	"github.com/illidan33/wow_tools/global"
 	"github.com/jinzhu/gorm"
 	"github.com/sirupsen/logrus"
 )

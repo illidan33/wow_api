@@ -4,12 +4,14 @@ import (
 	"errors"
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"github.com/illidan33/wow_api/database"
-	"github.com/illidan33/wow_api/global"
-	"github.com/illidan33/wow_api/modules"
+	"github.com/illidan33/wow_tools/database"
+	"github.com/illidan33/wow_tools/global"
+	"github.com/illidan33/wow_tools/modules"
 )
 
 func PreCreate(c *gin.Context) {
+	modules.CreateLoginLog(c, "macro60_precreate", 2)
+
 	name := c.Query("macro")
 	if name == "" {
 		modules.Return(c, 500, errors.New("params is empty"))

@@ -3,51 +3,53 @@ package api
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"github.com/illidan33/wow_api/modules"
+	"github.com/illidan33/wow_tools/modules"
 	"net/http"
 )
 
 func ApiIndex(c *gin.Context) {
 	name := c.Param("name")
-
-	var htmlName string
-	switch name {
-	case "api":
-		htmlName = "api_api.html"
-	case "event":
-		htmlName = "api_event.html"
-	case "macro":
-		htmlName = "api_macro.html"
-	case "widget":
-		htmlName = "api_widget.html"
-	case "widgetHandler":
-		htmlName = "api_widget_handler.html"
-	case "home":
-		htmlName = "api_index.html"
-	default:
+	if name == "" {
 		name = "home"
-		htmlName = "api_index.html"
 	}
-	modules.CreateLoginLog(c, htmlName)
+
+	htmlName := fmt.Sprintf("api_%s.html", name)
+	modules.CreateLoginLog(c, htmlName, 1)
 
 	c.HTML(http.StatusOK, htmlName, gin.H{
-		"apiPage": fmt.Sprintf("title-%s", name),
+		"apiPage": fmt.Sprintf("%s", name),
 	})
 }
 
 func DetailIndex(c *gin.Context) {
-	modules.CreateLoginLog(c, "api_detail.html")
+	html := "api_detail.html"
+	modules.CreateLoginLog(c, html, 1)
 
 	apiType := c.Query("type")
 	id := c.Param("id")
-	api, err := modules.GetApiByID(apiType, id)
+	api, err := modules.GetApiByID(id)
 	if err != nil {
 		c.HTML(http.StatusNotFound, "404.html", gin.H{})
 		return
 	}
 
-	c.HTML(http.StatusOK, "api_detail.html", gin.H{
+	c.HTML(http.StatusOK, html, gin.H{
 		"api":  api,
 		"type": apiType,
 	})
+}
+
+func ForeignDetailIndex(c *gin.Context) {
+	modules.CreateLoginLog(c, "api_foreign.html", 1)
+
+	apiType := c.Query("type")
+	id := c.Param("id")
+	api, err := modules.GetApiByID(id)
+	if err != nil {
+		c.HTML(http.StatusNotFound, "404.html", gin.H{})
+		return
+	}
+	url := modules.GetApiDetailUrlByID(apiType, api.Name)
+
+	c.Redirect(http.StatusFound, url)
 }

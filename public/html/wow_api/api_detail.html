@@ -1,9 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-	<title>API Detail</title>
     {{template "api_head_script" .}}
 	<script src="/js/marked.min.js"></script>
 </head>
@@ -11,13 +8,15 @@
 {{template "api_header"}}
 <div class="container">
 	<div class="row" style="padding-bottom: 30px;">
-		<div class="col-md-12" style="color: white;">
-			<label class="h2" id="name" flag="{{.api.ID}}" flag1="{{.type}}">{{.api.Name}}</label>
-		</div>
 		<div class="col-md-12" style="margin: 10px;">
+			<button class="btn btn-info show-cs" id="back">返回</button>
 			<button class="btn btn-info show-cs" id="edit">信息有误？点此编辑提交最新资料!</button>
+			<button class="btn btn-info show-cs" id="forDetail">查看国外网站API详情</button>
 			<button class="btn btn-info edit-cs" id="save">点次提交保存</button>
 			<button class="btn btn-info edit-cs" id="cancel">取消</button>
+		</div>
+		<div class="col-md-12">
+			<label class="h2" id="name" flag="{{.api.ID}}" flag1="{{.type}}">{{.api.Name}}</label>
 		</div>
 	</div>
 	<div class="row">
@@ -27,31 +26,32 @@
 				<input id="name_cn" type="text" class="form-control edit-input" placeholder="" aria-describedby="basic-addon0" value="{{.api.NameCn}}">
 			</div>
 		</div>
-		<div class="col-md-12" style="margin: 20px 0px;">
+		<!--<div class="col-md-12" style="margin: 20px 0px;">
 			<div class="input-group">
 				<span class="input-group-addon" id="basic-addon1">简介：</span>
 				<input id="desc" type="text" class="form-control edit-input" placeholder="" aria-describedby="basic-addon1" value="{{.api.Desc}}">
 			</div>
-		</div>
-		<div class="col-md-12 edit-cs">
+		</div>-->
+		<div class="col-md-12 edit-cs" style="margin: 20px 0px;">
 			<div class="input-group">
 				<span class="input-group-addon" id="basic-addon2">详情：</span>
 				<textarea id="info_desc" class="form-control" style="resize: none;" rows="13" aria-describedby="basic-addon2">{{.api.Desc}}</textarea>
 			</div>
 		</div>
-		<div class="col-md-12 show-cs">
+		<div class="col-md-12 show-cs" style="margin: 20px 0px;">
 			<div class="input-group">
 				<span class="input-group-addon" id="basic-addon3">详情：</span>
-				<div id="target-text" class="form-control" aria-describedby="basic-addon3" style="height: auto;"></div>
+				<div id="target-text" class="form-control" aria-describedby="basic-addon3" style="height: auto;min-height: 30px;"></div>
 			</div>
 		</div>
 	</div>
+    {{template "common_footer"}}
 </div>
 <br><br>
 <script>
 	function fillText() {
-		let htmlStr = marked($("#info_desc").val());
-		let reg = /<table>/g;
+		var htmlStr = marked($("#info_desc").val());
+		var reg = /<table>/g;
 		htmlStr = htmlStr.replace(reg, "<table class='table table-bordered'>");
 		$("#target-text").html(htmlStr);
 	}
@@ -96,6 +96,14 @@
 				alert('感谢提供最新信息，校验通过后即会展示！');
 				editHide();
 			});
+		});
+		$("#back").click(function() {
+			window.history.back();
+		});
+		$("#forDetail").click(function() {
+			var id = $("#name").attr("flag");
+			var t = $("#name").attr("flag1");
+			window.open("/api/forgnDetail/" + id + "?type=" + t);
 		});
 	})
 </script>

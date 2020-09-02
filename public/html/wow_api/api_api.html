@@ -1,20 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>WoW API</title>
 	{{template "api_head_script" .}}
 </head>
 <body>
 {{template "api_header"}}
 <div class="container">
 	<div class="row" id="content">
-		<div id="title-header" class="col-md-3 col-xs-12">
+		<div id="title-header" class="col-md-3 col-xs-4">
 			{{template "title"}}
 		</div>
 
-		<div class="col-md-9 col-xs-12">
+		<div class="col-md-9 col-xs-8">
 			<div class="panel-heading h2">魔兽世界API</div>
-			<div class="panel-body" id="content-header">
+			<div class="panel-body hidden-xs" id="content-header">
 				<p>
 					在魔兽API的世界，或魔兽API，是一组由暴雪提供的功能进行交互和修改魔兽世界通过使用插件和宏的界面和行为。以下功能列表不完整，并按用户贡献保持最新; 您可能还对手动更新的最新实时客户端中存在的所有API函数的详尽列表感兴趣。
 					如果您正在考虑提供文档，请阅读如何编辑API页面。总结：根据需要更新此页面（和链接的页面），讨论“ 讨论”页面上的任何大规模更改，并且不要创建空的存根页面。
@@ -33,6 +32,7 @@
 			{{ template "table"}}
 		</div>
 	</div>
+    {{template "common_footer"}}
 </div>
 </body>
 </html>
