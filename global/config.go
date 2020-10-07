@@ -30,7 +30,7 @@ var Config = struct {
 }{
 	ListenHost:  "127.0.0.1",
 	ListenPort:  8002,
-	ApiRootPath: "%s/src/github.com/illidan33/wow_tools",
+	ApiRootPath: "%s/src/github.com/illidan33/wow_api",
 	DbHost:      "127.0.0.1",
 	DbPort:      3306,
 	DbUser:      "testU",
