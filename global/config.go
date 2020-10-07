@@ -1,8 +1,10 @@
 package global
 
 import (
+	"fmt"
 	"github.com/rifflock/lfshook"
 	"github.com/sirupsen/logrus"
+	"os"
 )
 
 var Config = struct {
@@ -28,7 +30,7 @@ var Config = struct {
 }{
 	ListenHost:  "127.0.0.1",
 	ListenPort:  8002,
-	ApiRootPath: "/data/golang/go/src/github.com/illidan33/wow_tools",
+	ApiRootPath: "%s/src/github.com/illidan33/wow_tools",
 	DbHost:      "127.0.0.1",
 	DbPort:      3306,
 	DbUser:      "testU",
@@ -55,4 +57,5 @@ func init() {
 		))
 	}
 	Config.Log.Level = Config.LogLevel
+	Config.ApiRootPath = fmt.Sprintf(Config.ApiRootPath, os.Getenv("GOPATH"))
 }

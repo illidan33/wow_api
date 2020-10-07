@@ -16,7 +16,7 @@ func ApiDetail(c *gin.Context) {
 	}
 	global.Config.Log.Debugf("ApiDetailHandle id: %s", id)
 
-	event := database.ApiEvent{}
+	event := database.ApiItem{}
 	err := modules.DbConn.Where("id = ?", id).First(&event).Error
 	if err != nil {
 		modules.Return(c, 500, err)

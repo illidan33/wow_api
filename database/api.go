@@ -33,7 +33,6 @@ type ApiUnit struct {
 	UpdateTime time.Time `grom:"column:update_time" json:"updateTime"`
 }
 
-// 合并数据之后
 type ApiItem struct {
 	ApiUnit
 	ApiID int32 `gorm:"column:api_id" json:"apiId"`
