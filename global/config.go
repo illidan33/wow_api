@@ -47,7 +47,7 @@ var Config = struct {
 func init() {
 	rootPath := os.Getenv("GOPATH")
 	if rootPath == "" {
-		panic("GOPATH empty")
+		rootPath = "/data/go"
 	}
 	Config.ApiRootPath = fmt.Sprintf(Config.ApiRootPath, rootPath)
 	Config.LogPath = fmt.Sprintf(Config.LogPath, Config.ApiRootPath)
