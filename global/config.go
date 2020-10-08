@@ -38,13 +38,20 @@ var Config = struct {
 	DbName:      "wow_hong",
 	IsSaveLog:   false,
 	Log:         logrus.New(),
-	LogPath:     "./logs/log.txt",
+	LogPath:     "%s/logs/log.txt",
 	LogLevel:    logrus.DebugLevel,
 	VerifyCode:  "testcode",
 	ChartDay:    20,
 }
 
 func init() {
+	rootPath := os.Getenv("GOPATH")
+	if rootPath == "" {
+		panic("GOPATH empty")
+	}
+	Config.ApiRootPath = fmt.Sprintf(Config.ApiRootPath, rootPath)
+	Config.LogPath = fmt.Sprintf(Config.LogPath, Config.ApiRootPath)
+
 	if Config.IsSaveLog {
 		pathMap := lfshook.PathMap{
 			logrus.InfoLevel:  Config.LogPath,
@@ -57,5 +64,4 @@ func init() {
 		))
 	}
 	Config.Log.Level = Config.LogLevel
-	Config.ApiRootPath = fmt.Sprintf(Config.ApiRootPath, os.Getenv("GOPATH"))
 }
