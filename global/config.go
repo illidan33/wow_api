@@ -49,7 +49,6 @@ func init() {
 	if rootPath == "" {
 		panic("GOPATH empty")
 	}
-
 	Config.ApiRootPath = fmt.Sprintf(Config.ApiRootPath, rootPath)
 	Config.LogPath = fmt.Sprintf(Config.LogPath, Config.ApiRootPath)
 
