@@ -59,11 +59,61 @@
 				</table>
 			</div>
 		</div>
+
+		<div class="col-md-12">
+			<nav aria-label="Page navigation">
+				<ul class="pagination">
+					<li>
+						<a id="previous" aria-label="Previous">
+							<span aria-hidden="true">&laquo;</span>
+						</a>
+					</li>
+					<li><a id="homepage" flag="1">首页</a></li>
+					<li><a style="color: black;">第<span id="currentPage">1</span>页</a></li>
+					<li>
+						<a id="next" aria-label="Next">
+							<span aria-hidden="true">&raquo;</span>
+						</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
 	</div>
     {{template "common_footer"}}
 </div>
 <br><br><br>
 <script>
+    function loadPage(pageNo) {
+        var pid = document.getElementById("profession").value;
+        if (!pid) {
+            alert('职业或专精未选择！');
+            return false;
+        }
+        vue.$data.select_macro = [];
+        vue.$data.macros = [];
+
+        if (pageNo < 1) {
+            pageNo = 1;
+        }
+        axios.get('/macro60/macroList', {
+            params: {
+                professionId: pid,
+                pageNo: pageNo
+            }
+        })
+            .then(function(response) {
+                vue.$data.macros = response.data.data;
+                if (response.data.data.length > 0) {
+                    $("#homepage").attr("flag", response.data.pageNo);
+                    $("#currentPage").text(response.data.pageNo);
+                }
+            })
+            .catch(function(error) {
+                console.log(error);
+            });
+    }
+    $(".pagination").hide();
+
 	var vue = new Vue({
 		el: "#container",
 		delimiters: ['${', '}$'],
@@ -74,7 +124,11 @@
 			select_macro: []
 		},
 		methods: {
-			search: function() {
+            search: function() {
+                loadPage(1);
+                $(".pagination").show();
+            },
+			/*search: function() {
 				var pid = document.getElementById("profession").value;
 				if (!pid) {
 					alert('职业或专精未选择！');
@@ -97,7 +151,7 @@
 					.then(function() {
 						// always executed
 					});
-			},
+			},*/
 			changeMacro: function() {
 				var id = document.getElementById("macro_id").value;
 				if (!id) {
@@ -127,6 +181,20 @@
 			},
 		},
 	});
+    $("#previous").click(function() {
+        var pageNo = $("#homepage").attr("flag");
+        loadPage(parseInt(pageNo) - 1);
+        $(this).blur();
+    });
+    $("#next").click(function() {
+        var pageNo = $("#homepage").attr("flag");
+        loadPage(parseInt(pageNo) + 1);
+        $(this).blur();
+    });
+    $("#homepage").click(function() {
+        loadPage(1);
+        $(this).blur();
+    });
 	axios.get('/macro/professionList', {
 		params: {
 			v: 60,
