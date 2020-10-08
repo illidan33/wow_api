@@ -63,5 +63,6 @@ func init() {
 			&logrus.JSONFormatter{},
 		))
 	}
+
 	Config.Log.Level = Config.LogLevel
 }
