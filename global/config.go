@@ -30,7 +30,7 @@ var Config = struct {
 }{
 	ListenHost:  "127.0.0.1",
 	ListenPort:  8002,
-	ApiRootPath: "%s/src/github.com/illidan33/wow_api",
+	ApiRootPath: "",
 	DbHost:      "127.0.0.1",
 	DbPort:      3306,
 	DbUser:      "testU",
@@ -47,9 +47,13 @@ var Config = struct {
 func init() {
 	rootPath := os.Getenv("GOPATH")
 	if rootPath == "" {
-		rootPath = "/data/go"
+		panic("GOPATH empty")
 	}
-	Config.ApiRootPath = fmt.Sprintf(Config.ApiRootPath, rootPath)
+	apiRootPath := os.Getenv("APIPATH")
+	if apiRootPath == "" {
+		panic("APIPATH empty")
+	}
+	Config.ApiRootPath = apiRootPath
 	Config.LogPath = fmt.Sprintf(Config.LogPath, Config.ApiRootPath)
 
 	if Config.IsSaveLog {
