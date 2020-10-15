@@ -13,5 +13,5 @@
 
 .idea
 logs/*
-wow_api
+./wow_api
 wow_api.exe
