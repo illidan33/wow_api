@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	{{template "api_head_script" .}}
+</head>
+<body>
+{{template "api_header"}}
+<div class="container">
+	<div class="row" id="content">
+		<div id="title-header" class="col-md-3 col-xs-4">
+			{{template "title"}}
+		</div>
+		<div class="col-md-9 col-xs-8">
+			<div class="panel-heading h2">宏命令</div>
+			<div class="panel-body hidden-xs">
+				<p>
+					本文介绍了魔兽世界（没有插件）识别的所有宏命令（或斜杠命令）。 要使用斜杠命令，请在斜杠前面输入名称，然后输入命令进入聊天框的任何参数（例如，/表示Hello Azeroth！）。 命令名称不区分大小写，您可以通过将每个命令放在一个新行上来组合宏中的多个命令。
+
+					在下面的列表中，具有多个别名的命令通常列在最扩展的别名下。
+				</p>
+			</div>
+
+			<!-- Table -->
+			{{template "table"}}
+		</div>
+	</div>
+    {{template "common_footer"}}
+</div>
+</body>
+</html>

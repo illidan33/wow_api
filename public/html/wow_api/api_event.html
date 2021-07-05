@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	{{template "api_head_script" .}}
+</head>
+<body>
+{{template "api_header"}}
+<div class="container">
+	<div class="row" id="content">
+		<div class="col-md-12">
+			<div class="panel-heading h2">事件(Event)</div>
+			<div class="panel-body">
+				<p>
+					事件是由WoW客户端发送到UI代码（通过OnEvent脚本处理程序）的消息，主要是对游戏世界中发生的事情的反应。必须在渲染帧之前完成所有脚本执行; 因此，占用时间过长或包含无限循环的事件处理代码将冻结客户端。
+
+					<br>此页面列出了插件可用的事件以及简要说明; 个别活动页面上可能会提供更详细的信息。有关在插件中设置事件处理的一般教程，请参阅处理事件和Frame：RegisterEvent方法。
+				</p>
+			</div>
+
+			<!-- Table -->
+			{{template "table"}}
+		</div>
+	</div>
+    {{template "common_footer"}}
+</div>
+</body>
+</html>

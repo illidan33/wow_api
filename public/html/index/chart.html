@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>落叶的记录</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<link rel="stylesheet" href="/css/bootstrap.min.css">
+	<script src="/js/jquery.min.js"></script>
+	<script src="/js/highcharts.js"></script>
+</head>
+<body>
+<div class="container">
+	<div class="form-inline" style="margin: 10px;">
+		<div class="form-group">
+			<label class="sr-only" for="sd">Start Date</label>
+			<input type="email" class="form-control" id="sd" placeholder="Start Date">
+		</div>
+		<div class="form-group">
+			<label class="sr-only" for="ed">End Date</label>
+			<input type="password" class="form-control" id="ed" placeholder="End Date">
+		</div>
+		<button type="submit" id="submit" class="btn btn-default">Submit</button>
+	</div>
+	<div id="content"></div>
+</div>
+<script type="text/javascript">
+	$(function() {
+		var options = {
+			title: {
+				text: '近期使用人数统计（独立ip）'
+			},
+			yAxis: {
+				title: {
+					text: '每日使用人数'
+				}
+			},
+			xAxis: {
+				title: {
+					text: '时间跨度'
+				},
+				categories: null,
+			},
+			legend: {
+				layout: 'vertical',
+				align: 'right',
+				verticalAlign: 'middle'
+			},
+			responsive: {
+				rules: [{
+					condition: {
+						maxWidth: 500
+					},
+					chartOptions: {
+						legend: {
+							layout: 'horizontal',
+							align: 'center',
+							verticalAlign: 'bottom'
+						}
+					}
+				}]
+			},
+			series: null,
+		};
+
+		var chart = Highcharts.chart('content', options);
+		$("#submit").click(function() {
+			var sd = $("#sd").val();
+			var ed = $("#ed").val();
+			$.get("/chart/data", {sd: sd, ed: ed}, function(resp) {
+				// console.log(resp);
+				if (resp.code == 0) {
+					var seriesList = chart.series;
+					var seriesCount = seriesList.length;
+					for (var i = 0; i < seriesCount; i++) {
+						chart.series[0].remove();
+					}
+					chart.xAxis[0].setCategories(resp.title)
+					for (var i = 0; i < resp.data.length; i++) {
+						chart.addSeries(resp.data[i]);
+					}
+				}
+			});
+		});
+	})
+
+
+</script>
+</body>
+</html>

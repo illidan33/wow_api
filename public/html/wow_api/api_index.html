@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>WoW API</title>
+	{{template "api_head_script" .}}
+</head>
+<body>
+{{template "api_header"}}
+<div class="container">
+	<div class="row" id="content">
+		<div class="col-md-9 col-xs-12">
+			<div class="panel-heading h2">魔兽世界API</div>
+			<div class="panel-body" id="content-header">
+				<p>
+					在魔兽API的世界，或魔兽API，是一组由暴雪提供的功能进行交互和修改魔兽世界通过使用插件和宏的界面和行为。以下功能列表不完整，并按用户贡献保持最新; 您可能还对手动更新的最新实时客户端中存在的所有API函数的详尽列表感兴趣。
+					如果您正在考虑提供文档，请阅读如何编辑API页面。总结：根据需要更新此页面（和链接的页面），讨论“ 讨论”页面上的任何大规模更改，并且不要创建空的存根页面。
+					此列表中的函数名称以下列标记为前缀：
+				</p>
+				<ul>
+					<li>PROTECTED - 只能从安全代码调用此函数。请参阅受保护的功能类别。</li>
+					<li>NOCOMBAT - 在战斗中无法从不安全的代码调用此函数。</li>
+					<li>HW - 只能响应硬件事件（来自OnClick处理程序）调用此函数。</li>
+					<li>UI - 此函数在Lua（在FrameXML中）中实现，但被认为足够重要，可以在此处显示。</li>
+					<li>REMOVED - 此功能已从魔兽世界API中删除（并将在大约一个月内从此列表中删除）。出于历史目的，请参阅“已删除的函数”类别。</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,38 @@
+#title-ul li {
+	cursor: pointer;
+}
+
+.navbar-nav {
+	display: inline-block;
+	height: 50px;
+}
+
+.navbar-nav > li, .navbar-nav > li > a {
+	display: inline-block;
+	padding-top: 0px;
+	padding-bottom: 0px;
+	height: 50px;
+	line-height: 50px;
+}
+
+.navbar-nav > li {
+	border: 1px solid #333333;
+	border-radius: 5px;
+}
+
+.navbar-nav > li:hover {
+	background-color: white;
+}
+
+.navbar-inverse .navbar-nav > li > a:hover {
+	color: black;
+}
+
+.home-active, .active {
+	color: white;
+	background-color: black;
+}
+
+#title-ul > .list-group-item {
+	cursor: pointer;
+}

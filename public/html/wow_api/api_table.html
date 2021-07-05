@@ -1,0 +1,24 @@
+{{define "table"}}
+	<div>
+		<span id="api-select" class="h3"></span>
+	</div>
+	<table class="table">
+		<thead>
+		<tr>
+			<th>API 名称</th>
+			<th>描述</th>
+		</tr>
+		</thead>
+		<tbody id="api-list">
+		</tbody>
+	</table>
+	<script>
+		$(function() {
+			var pid = $("#title-ul active").eq(0).attr("flag");
+			if (api === "event") {
+				pid = 0;
+			}
+			apiDetail(pid, api);
+		})
+	</script>
+{{end}}

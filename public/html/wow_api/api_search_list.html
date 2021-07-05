@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {{template "api_head_script" .}}
+</head>
+<body>
+{{template "api_header"}}
+<div class="container">
+	<div class="row" id="content">
+		<div id="search-list">
+		</div>
+	</div>
+    {{template "common_footer"}}
+</div>
+<script>
+	function getUrlParam(name) {
+		var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+		var r = window.location.search.substr(1).match(reg);
+		if (r != null) return unescape(r[2]);
+		return null;
+	}
+
+	$(function() {
+		var s = getUrlParam("s");
+		$("#search").val(s);
+		$.getJSON("/api/search", {s: s}, function(data) {
+			if (data.code != 200) {
+				alert(data.msg);
+				return
+			}
+			$.each(data.data, function(k, v) {
+				$("#search-list").append('<a href="/api/detail/' + v.id + '?type=' + v.type + '" class="list-group-item">' + v.name + '</a>');
+			})
+		})
+	})
+</script>
+</body>
+</html>

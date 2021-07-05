@@ -1,0 +1,23 @@
+{{define "api_head_script"}}
+	<title>落叶的记录</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<link rel="stylesheet" href="/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/css/common.css">
+	<script src="/js/jquery.min.js"></script>
+	<script>
+		var api = {{.apiPage}};
+
+		function apiDetail(pid, api) {
+			$.get("/api/list", {pid: pid, type: api}, function(data) {
+				if (data) {
+					var text = '';
+					$.each(data.list, function(k, v) {
+						text += '<tr flag="' + v.id + '"> <td><a href="/api/detail/' + v.id + '?type=' + api + '">' + v.name + '</a></td> <td>' + v.desc + '</td></tr>';
+					});
+					$("#api-list").html(text);
+				}
+			}, "json");
+		}
+	</script>
+{{end}}
