@@ -2,8 +2,8 @@ package macro
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/illidan33/wow_tools/database"
-	"github.com/illidan33/wow_tools/modules"
+	"github.com/illidan33/wow_api/database"
+	"github.com/illidan33/wow_api/modules"
 )
 
 func ProfessionList(c *gin.Context) {

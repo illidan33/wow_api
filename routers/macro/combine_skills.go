@@ -3,7 +3,7 @@ package macro
 import (
 	"bytes"
 	"github.com/gin-gonic/gin"
-	"github.com/illidan33/wow_tools/modules"
+	"github.com/illidan33/wow_api/modules"
 	"net/http"
 )
 

@@ -3,9 +3,9 @@ package macro60
 import (
 	"errors"
 	"github.com/gin-gonic/gin"
-	"github.com/illidan33/wow_tools/database"
-	"github.com/illidan33/wow_tools/global"
-	"github.com/illidan33/wow_tools/modules"
+	"github.com/illidan33/wow_api/database"
+	"github.com/illidan33/wow_api/global"
+	"github.com/illidan33/wow_api/modules"
 	"time"
 )
 
@@ -18,7 +18,7 @@ func CreateMacro(c *gin.Context) {
 		modules.Return(c, 500, errors.New("params is error"))
 		return
 	}
-	global.Config.Log.Debugf("CreateSequence req: %+v", macro)
+	global.Log.Debugf("CreateSequence req: %+v", macro)
 
 	macro.UpdateTime = time.Now()
 	macro.IsVerify = 2

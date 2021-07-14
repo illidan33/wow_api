@@ -3,8 +3,8 @@ package api
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"github.com/illidan33/wow_tools/global"
-	"github.com/illidan33/wow_tools/modules"
+	"github.com/illidan33/wow_api/global"
+	"github.com/illidan33/wow_api/modules"
 	"net/http"
 )
 
@@ -13,7 +13,7 @@ func ApiList(c *gin.Context) {
 	pid := c.DefaultQuery("pid", "0")
 	tableType := c.DefaultQuery("type", "api")
 
-	global.Config.Log.Debugf("ApiList, pid: %s, type: %s.", pid, tableType)
+	global.Log.Debugf("ApiList, pid: %s, type: %s.", pid, tableType)
 
 	wowApis, err := modules.GetApiByParentID(tableType, pid)
 	if err != nil {

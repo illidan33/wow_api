@@ -2,10 +2,10 @@ package routers
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/illidan33/wow_tools/routers/api"
-	"github.com/illidan33/wow_tools/routers/index"
-	"github.com/illidan33/wow_tools/routers/macro"
-	"github.com/illidan33/wow_tools/routers/macro60"
+	"github.com/illidan33/wow_api/routers/api"
+	"github.com/illidan33/wow_api/routers/index"
+	"github.com/illidan33/wow_api/routers/macro"
+	"github.com/illidan33/wow_api/routers/macro60"
 )
 
 var Chart *gin.RouterGroup

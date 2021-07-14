@@ -3,15 +3,15 @@ package modules
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"github.com/illidan33/wow_tools/database"
-	"github.com/illidan33/wow_tools/global"
+	"github.com/illidan33/wow_api/database"
+	"github.com/illidan33/wow_api/global"
 	"net/http"
 	"strings"
 )
 
 func Return(c *gin.Context, code int32, resp interface{}) {
 	if e, ok := resp.(error); ok {
-		global.Config.Log.Error(e)
+		global.Log.Error(e)
 		if e.Error() == "record not found" {
 			c.JSON(http.StatusOK, gin.H{
 				"code": code,
@@ -34,7 +34,7 @@ func Return(c *gin.Context, code int32, resp interface{}) {
 
 func ReturnPage(c *gin.Context, code int32, pageNo int64, pageSize int64, resp interface{}) {
 	if e, ok := resp.(error); ok {
-		global.Config.Log.Error(e)
+		global.Log.Error(e)
 		if e.Error() == "record not found" {
 			c.JSON(http.StatusOK, gin.H{
 				"code": code,

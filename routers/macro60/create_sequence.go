@@ -4,8 +4,8 @@ import (
 	"errors"
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"github.com/illidan33/wow_tools/global"
-	"github.com/illidan33/wow_tools/modules"
+	"github.com/illidan33/wow_api/global"
+	"github.com/illidan33/wow_api/modules"
 	"math"
 	"net/http"
 	"strings"
@@ -20,7 +20,7 @@ func CreateSequence(c *gin.Context) {
 		modules.Return(c, 500, errors.New("params is error"))
 		return
 	}
-	global.Config.Log.Debugf("CreateSequence req: %+v", sequenceList)
+	global.Log.Debugf("CreateSequence req: %+v", sequenceList)
 
 	for i, value := range sequenceList {
 		if value.Cooldown == 0 {

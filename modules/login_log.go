@@ -1,8 +1,8 @@
 package modules
 
 import (
-	"github.com/illidan33/wow_tools/database"
-	"github.com/illidan33/wow_tools/global"
+	"github.com/illidan33/wow_api/database"
+	"github.com/illidan33/wow_api/global"
 	"time"
 )
 
@@ -24,7 +24,7 @@ func createLog(ip string, method string, t uint8) error {
 
 	err := DbConn.Create(&log).Error
 	if err != nil {
-		global.Config.Log.Error(err)
+		global.Log.Error(err)
 	}
 
 	return nil

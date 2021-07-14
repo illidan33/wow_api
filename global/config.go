@@ -5,6 +5,10 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
+var (
+	Log *logrus.Logger
+)
+
 var Config = struct {
 	// 系统
 	ListenHost  string
@@ -19,7 +23,6 @@ var Config = struct {
 	// 日志
 	IsSaveLog bool
 	LogPath   string
-	Log       *logrus.Logger
 	LogLevel  logrus.Level
 	// 基础验证
 	VerifyCode string
@@ -30,11 +33,10 @@ var Config = struct {
 	ListenPort: 8002,
 	DbHost:     "127.0.0.1",
 	DbPort:     3306,
-	DbUser:     "xxx",
-	DbPwd:      "xxx",
+	DbUser:     "root",
+	DbPwd:      "test123",
 	DbName:     "wow_hong",
-	IsSaveLog:  false,
-	Log:        logrus.New(),
+	IsSaveLog:  true,
 	LogPath:    "./logs/log.txt",
 	LogLevel:   logrus.DebugLevel,
 	VerifyCode: "testcode",
@@ -42,17 +44,18 @@ var Config = struct {
 }
 
 func init() {
+	Log = logrus.New()
+	Log.Level = Config.LogLevel
 	if Config.IsSaveLog {
 		pathMap := lfshook.PathMap{
 			logrus.InfoLevel:  Config.LogPath,
 			logrus.ErrorLevel: Config.LogPath,
 			logrus.WarnLevel:  Config.LogPath,
+			logrus.DebugLevel: Config.LogPath,
 		}
-		Config.Log.Hooks.Add(lfshook.NewHook(
+		Log.Hooks.Add(lfshook.NewHook(
 			pathMap,
 			&logrus.JSONFormatter{},
 		))
 	}
-
-	Config.Log.Level = Config.LogLevel
 }
